@@ -8,9 +8,9 @@ import { fetchItems } from "@/lib/data";
 import type { Item } from "@/lib/types";
 
 const STEPS = [
-  { n: "I", title: "Report to the registry", text: "File a lost or found entry with the place, date, and distinguishing marks." },
-  { n: "II", title: "Claim with proof", text: "The owner submits evidence only they would know — contents, engravings, marks." },
-  { n: "III", title: "Verified return", text: "The poster or the Security Office verifies the claim and records the handover." },
+  { n: "01", title: "Report in seconds", text: "File a lost or found entry with place, date, and distinguishing marks." },
+  { n: "02", title: "Claim with proof", text: "Owners submit evidence only they would know — contents, marks, engravings." },
+  { n: "03", title: "Verified return", text: "The poster or Security Office verifies the claim and records the handover." },
 ];
 
 export default function Home() {
@@ -28,7 +28,7 @@ export default function Home() {
       setItems(d.items);
       setTotal(d.total);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "The registry could not be loaded. Please try again later.");
+      setError(e instanceof Error ? e.message : "We couldn't load the board. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -48,67 +48,81 @@ export default function Home() {
   );
 
   return (
-    <div className="space-y-8">
-      {/* University masthead */}
-      <section className="relative overflow-hidden rounded-2xl bg-navy-800 text-white" aria-labelledby="hero">
-        <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold-500 via-gold-300 to-gold-500" aria-hidden />
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-linear-to-r from-gold-500 via-gold-300 to-gold-500" aria-hidden />
-        <div className="relative space-y-5 p-6 text-center sm:p-10">
-          <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-gold-500/60 px-4 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-gold-300">
-            Office of Student Affairs · Registry
+    <div className="space-y-14">
+      {/* Hero */}
+      <section className="hero-band relative overflow-hidden rounded-2xl px-4 py-16 text-center sm:px-6" aria-labelledby="hero">
+        <div className="hero-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden />
+        <div className="relative mx-auto max-w-3xl space-y-5">
+          <p className="btn-tint mx-auto w-fit">
+            <span className="inline-block h-2 w-2 rounded-full bg-primary" aria-hidden /> Lost &amp; Found Portal
           </p>
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-b from-gold-300 to-gold-500 font-display text-3xl font-black text-navy-800 shadow-lg" aria-hidden>
-            B
-          </div>
-          <h1 id="hero" className="mx-auto max-w-2xl font-display text-3xl font-bold leading-tight sm:text-5xl">
-            Campus Lost &amp; Found Registry
+          <h1 id="hero" className="display-hero text-ink">
+            Lost it? Found it?
+            <span className="block bg-gradient-to-r from-primary via-cyan-accent to-teal-accent bg-clip-text text-transparent">
+              Let&apos;s bring it home.
+            </span>
           </h1>
-          <p className="mx-auto h-px w-24 bg-gold-500" aria-hidden />
-          <p className="mx-auto max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
-            The official record of articles lost and found upon the campus. File an entry, prove ownership
-            through a claim, and collect your belongings from the poster or the Security Office.
+          <p className="mx-auto max-w-xl text-xl font-normal leading-[1.4] text-body">
+            The friendly campus recovery network. File an entry, prove ownership through a claim, and arrange a verified return.
             {user ? (
-              <span className="mt-1 block font-semibold text-gold-300">Welcome back, {user.name}.</span>
+              <span className="mt-1 block text-xl font-bold tracking-[-0.5px] text-ink">Welcome back, {user.name}.</span>
             ) : (
-              <span className="mt-1 block">Members of the university may join with a campus email.</span>
+              <span className="mt-1 block">Students and staff can join with a campus email.</span>
             )}
           </p>
 
+          <form
+            role="search"
+            aria-label="Quick search"
+            className="mx-auto flex max-w-xl items-center gap-2 rounded-full border border-hairline bg-white p-2 pl-5 shadow-[rgba(0,0,0,0.1)_0px_4px_6px_-1px,rgba(0,0,0,0.1)_0px_2px_4px_-2px]"
+            onSubmit={(e) => {
+              e.preventDefault();
+              document.getElementById("registry")?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            <span aria-hidden className="text-body">🔍</span>
+            <label htmlFor="hero-search" className="sr-only">
+              Search lost and found items
+            </label>
+            <input id="hero-search" placeholder="Try “wallet”, “keys”, “airpods”…" className="w-full bg-transparent text-base text-ink outline-none placeholder:text-[rgba(103,103,126,0.5)]" />
+            <button type="submit" className="btn-primary shrink-0">
+              Search
+            </button>
+          </form>
+
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/items/new" className="btn-gold text-sm">
-              ✒ File a registry entry
+            <Link href="/items/new?type=found" className="btn-found !h-12 !px-8 !text-base">
+              Report found
             </Link>
-            <Link href="#registry" className="btn-outline-light text-sm">
-              View the notice board ↓
+            <Link href="/items/new?type=lost" className="btn-lost !h-12 !px-8 !text-base">
+              Report lost
             </Link>
           </div>
 
-          <dl className="mx-auto flex max-w-lg justify-center gap-8 border-t border-white/15 pt-4" role="status">
-            <div>
-              <dt className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Open entries</dt>
-              <dd className="font-display text-2xl font-bold text-gold-300">{loading ? "…" : stats.open}</dd>
-            </div>
-            <div>
-              <dt className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Under claim</dt>
-              <dd className="font-display text-2xl font-bold text-gold-300">{loading ? "…" : stats.claimed}</dd>
-            </div>
-            <div>
-              <dt className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Restored</dt>
-              <dd className="font-display text-2xl font-bold text-gold-300">{loading ? "…" : stats.returned}</dd>
-            </div>
+          <dl className="mx-auto flex max-w-lg justify-center gap-8 pt-2" role="status">
+            {[
+              { label: "Open entries", v: stats.open },
+              { label: "Under claim", v: stats.claimed },
+              { label: "Reunited", v: stats.returned },
+            ].map((s) => (
+              <div key={s.label}>
+                <dt className="text-[12px] font-semibold uppercase tracking-[0.3px] text-body">{s.label}</dt>
+                <dd className="text-xl font-bold tracking-[-0.5px] text-ink">{loading ? "…" : s.v}</dd>
+              </div>
+            ))}
           </dl>
         </div>
       </section>
 
-      {/* Registry procedure */}
-      <section aria-label="How the registry works" className="grid gap-3 sm:grid-cols-3">
+      {/* How it works */}
+      <section aria-label="How it works" className="grid gap-8 sm:grid-cols-3">
         {STEPS.map((s) => (
-          <div key={s.n} className="card p-5">
-            <p className="font-display text-3xl font-bold text-gold-500" aria-hidden>
+          <div key={s.n} className="card p-6">
+            <p className="btn-tint w-fit" aria-hidden>
               {s.n}
             </p>
-            <h2 className="mt-1 font-display text-lg font-bold text-navy-800">{s.title}</h2>
-            <p className="mt-1 text-sm leading-relaxed text-slate-600">{s.text}</p>
+            <h2 className="mt-3 text-lg font-semibold leading-[1.56] tracking-[-0.45px] text-ink">{s.title}</h2>
+            <p className="mt-1 text-sm leading-[1.63] text-body">{s.text}</p>
           </div>
         ))}
       </section>
@@ -117,80 +131,72 @@ export default function Home() {
           Build a filter bar (query, type lost/found, category, location,
           date range, tags + sort) that calls fetchItems(filters) and updates
           the notice board below. Keep it client-side + Firestore compatible. */}
-      <section aria-label="Search and filters (to be implemented)" className="card space-y-3 border-dashed p-5">
+      <section aria-label="Search and filters (to be implemented)" className="card space-y-3 border-dashed !bg-white/60 p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <h2 className="font-display text-lg font-bold text-navy-800">🔍 Search &amp; filters</h2>
+          <h2 className="text-lg font-semibold tracking-[-0.45px] text-ink">Search &amp; filters</h2>
           <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-800">
             TODO · assigned: Kazi Abtahi
           </span>
         </div>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm leading-relaxed text-body">
           Search and filtering are not implemented yet. This board currently shows all public entries
           unfiltered. The assignee should add a search box + filters here (see <code>todo.md</code>).
         </p>
         <div className="flex flex-wrap gap-2 opacity-60" aria-hidden>
-          <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-400">
-            Search items…
-          </span>
-          <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-400">
-            Type: lost / found
-          </span>
-          <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-400">
-            Category
-          </span>
-          <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-400">
-            Location + dates
-          </span>
+          {["Search items…", "Type: lost / found", "Category", "Location + dates"].map((t) => (
+            <span key={t} className="rounded-full border border-hairline bg-white px-4 py-2 text-sm text-body">
+              {t}
+            </span>
+          ))}
         </div>
       </section>
 
-      {/* Notice board */}
-      <section id="registry" aria-labelledby="registry-h" className="scroll-mt-24 space-y-4">
-        <div className="flex items-end gap-3 border-b-2 border-navy-800 pb-3">
+      {/* Recent reports */}
+      <section id="registry" aria-labelledby="registry-h" className="scroll-mt-24 space-y-6">
+        <div className="flex flex-wrap items-end gap-3">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-gold-600">Notice board</p>
-            <h2 id="registry-h" className="font-display text-2xl font-bold text-navy-800 sm:text-3xl">
-              Current entries
+            <p className="btn-tint w-fit">Recent reports</p>
+            <h2 id="registry-h" className="mt-2 text-3xl font-bold leading-[1.2] tracking-[-0.75px] text-ink">
+              Fresh from the community
             </h2>
           </div>
-          <span className="ml-auto text-sm font-semibold text-slate-500" role="status">
-            {total} entr{total === 1 ? "y" : "ies"} on record
+          <span className="ml-auto text-sm font-medium text-body" role="status">
+            {total} {total === 1 ? "item" : "items"} on record
           </span>
         </div>
 
         {error ? (
-          <p role="alert" className="rounded-xl border border-red-300 bg-red-50 p-4 text-sm font-medium text-red-900">
+          <p role="alert" className="rounded-2xl border border-danger/30 bg-danger/10 p-4 text-sm font-medium text-danger">
             {error}
           </p>
         ) : null}
 
         {loading ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Loading registry entries">
-            {Array.from({ length: 6 }).map((_, i) => (
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4" aria-label="Loading entries">
+            {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="skeleton h-80" />
             ))}
           </div>
         ) : items.length === 0 ? (
-          <div className="card flex flex-col items-center gap-3 p-10 text-center">
-            <p className="font-display text-5xl text-gold-500" aria-hidden>
-              ❦
+          <div className="card flex flex-col items-center gap-3 p-12 text-center">
+            <p className="flex h-14 w-14 items-center justify-center rounded-full bg-[rgba(124,59,237,0.15)] text-2xl" aria-hidden>
+              🎒
             </p>
-            <h3 className="font-display text-xl font-bold text-navy-800">The board is clear</h3>
-            <p className="max-w-sm text-sm text-slate-600">
-              No entries are presently on record. Should you lose or find an article, file an entry and
-              it shall be posted here.
+            <h3 className="text-xl font-bold tracking-[-0.5px] text-ink">All clear — nothing lost right now</h3>
+            <p className="max-w-sm text-sm leading-relaxed text-body">
+              No entries are on record. Lost or found something? File it and it will show up here.
             </p>
-            <div className="flex gap-2">
-              <Link href="/items/new" className="btn-primary text-sm">
+            <div className="flex flex-wrap justify-center gap-2">
+              <Link href="/items/new" className="btn-primary !h-12 !text-base">
                 File an entry
               </Link>
-              <Link href="/keywords" className="btn-ghost text-sm">
-                Request notification
+              <Link href="/keywords" className="btn-ghost !h-12 !rounded-full">
+                Get notified
               </Link>
             </div>
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {items.map((it) => (
               <ItemCard key={it.id} item={it} />
             ))}

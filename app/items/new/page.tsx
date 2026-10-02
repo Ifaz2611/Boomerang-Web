@@ -97,8 +97,8 @@ export default function NewItemPage() {
         <p className="text-4xl" aria-hidden>
           🔐
         </p>
-        <h1 className="text-xl font-black">Log in to report an item</h1>
-        <p className="text-sm text-slate-500">Your posts are linked to your account so claims can reach you.</p>
+        <h1 className="text-xl font-bold tracking-[-0.45px] text-ink">Log in to report an item</h1>
+        <p className="text-sm text-body">Your posts are linked to your account so claims can reach you.</p>
         <a href="/login" className="btn-primary mx-auto text-sm">
           Go to login
         </a>
@@ -109,9 +109,9 @@ export default function NewItemPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-5">
       <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-gold-600">New report</p>
-        <h1 className="text-3xl font-black tracking-tight">What happened?</h1>
-        <p className="mt-1 text-sm text-slate-500">Two minutes now saves someone a week of searching.</p>
+        <p className="btn-tint w-fit">New report</p>
+        <h1 className="mt-2 text-3xl font-bold leading-[1.2] tracking-[-0.75px] text-ink">What happened?</h1>
+        <p className="mt-1 text-sm leading-[1.63] text-body">Two minutes now saves someone a week of searching.</p>
       </div>
 
       <form onSubmit={submit} className="card space-y-6 p-6 sm:p-8" aria-label="Report item">
@@ -129,15 +129,19 @@ export default function NewItemPage() {
               role="radio"
               aria-checked={form.type === o.v}
               onClick={() => setForm({ ...form, type: o.v })}
-              className={`rounded-2xl border-2 p-4 text-left transition-all ${
-                form.type === o.v ? "border-navy-800 bg-[#f3ecd9]" : "border-slate-200 hover:border-gold-500"
+              className={`rounded-2xl border p-4 text-left transition-all ${
+                form.type === o.v
+                  ? o.v === "lost"
+                    ? "border-danger bg-danger/10 shadow-[rgba(244,62,92,0.2)_0px_10px_15px_-3px,rgba(244,62,92,0.2)_0px_4px_6px_-4px]"
+                    : "border-teal-accent bg-teal-accent/10 shadow-[rgba(24,191,141,0.2)_0px_10px_15px_-3px,rgba(24,191,141,0.2)_0px_4px_6px_-4px]"
+                  : "border-hairline bg-white hover:border-primary"
               }`}
             >
               <p className="text-2xl" aria-hidden>
                 {o.icon}
               </p>
-              <p className="mt-1 font-extrabold">{o.title}</p>
-              <p className="text-xs text-slate-500">{o.sub}</p>
+              <p className="mt-1 font-semibold text-ink">{o.title}</p>
+              <p className="text-xs text-body">{o.sub}</p>
             </button>
           ))}
         </div>
@@ -177,7 +181,7 @@ export default function NewItemPage() {
                   role="radio"
                   aria-checked={active}
                   onClick={() => setForm({ ...form, category: c })}
-                  className={`rounded-xl border px-2 py-2.5 text-xs font-bold ${active ? "chip-active border-slate-900" : "border-slate-200 bg-white hover:border-gold-500"}`}
+                  className={`rounded-xl border px-2 py-2.5 text-xs font-semibold ${active ? "chip-active" : "border-hairline bg-white text-ink hover:border-primary"}`}
                 >
                   <span className="block text-lg" aria-hidden>
                     {meta.icon}
@@ -232,21 +236,21 @@ export default function NewItemPage() {
               className="text-sm"
             />
           </div>
-          <p className="mt-1 text-xs text-slate-400">
+          <p className="mt-1 text-xs text-body">
             {storage ? "Uploads to Firebase Storage." : "Demo mode: small photos are embedded; large ones are skipped."}
           </p>
         </div>
 
         {error ? (
-          <p role="alert" className="rounded-xl bg-rose-50 p-3 text-sm font-medium text-rose-900">
+          <p role="alert" className="rounded-xl bg-danger/10 p-3 text-sm font-medium text-danger">
             {error}
           </p>
         ) : null}
 
-        <button disabled={busy || loading} className="btn-primary w-full">
-          {busy ? "Posting…" : form.type === "lost" ? "🔍 Post lost item" : "✋ Post found item"}
+        <button disabled={busy || loading} className={form.type === "lost" ? "btn-lost w-full !h-12 !text-base" : "btn-found w-full !h-12 !text-base"}>
+          {busy ? "Posting…" : form.type === "lost" ? "Post lost item" : "Post found item"}
         </button>
-        <p className="text-center text-xs text-slate-400">
+        <p className="text-center text-xs text-body">
           {form.type === "lost" ? "Goes to review, then public so finders can match it." : "Held by you until the owner claims with proof."}
         </p>
       </form>

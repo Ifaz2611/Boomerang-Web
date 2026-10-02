@@ -1,15 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Source Serif 4", Georgia, "Times New Roman", serif;
-  --font-display: Georgia, "Palatino Linotype", "Book Antiqua", "Times New Roman", serif;
-  --color-navy-900: #0a1f36;
-  --color-navy-800: #0e2a47;
-  --color-navy-700: #1d4a7a;
-  --color-gold-600: #8a6d1c;
-  --color-gold-500: #c19a2e;
-  --color-gold-300: #e8cf7a;
-  --color-parchment: #f6f1e6;
+  --font-sans: "Outfit", system-ui, -apple-system, sans-serif;
+
+  --color-primary: #7c3bed;
+  --color-primary-deep: #5f22d6;
+  --color-teal-accent: #18bf8d;
+  --color-cyan-accent: #00c1d6;
+  --color-canvas: #f9f9fb;
+  --color-ink: #17171c;
+  --color-body: #67677e;
+  --color-hairline: #dcdce5;
+  --color-danger: #f43e5c;
+
+  /* Legacy aliases — map old registry tokens onto the new portal palette
+     so any unmigrated navy/gold classes still render coherently. */
+  --color-navy-900: #3d1a8a;
+  --color-navy-800: #7c3bed;
+  --color-navy-700: #5f22d6;
+  --color-gold-600: #7c3bed;
+  --color-gold-500: #18bf8d;
+  --color-gold-300: #00c1d6;
+  --color-parchment: #f4f2f8;
 }
 
 :root {
@@ -22,52 +35,55 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background: #f6f1e6;
-  background-image: radial-gradient(circle at 1px 1px, rgba(14, 42, 71, 0.05) 1px, transparent 0);
-  background-size: 26px 26px;
-  color: #232838;
+  background: linear-gradient(#f9f9fb 0%, #f4f2f8 100%);
+  color: #17171c;
   -webkit-font-smoothing: antialiased;
 }
 
-.font-display {
-  font-family: var(--font-display);
+/* ---------- Surfaces ---------- */
+.card {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(220, 220, 229, 0.5);
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;
+  backdrop-filter: blur(8px);
 }
 
-/* University registry system — ivory cards, navy ink, gold rules */
-.card {
-  background: #fffdf8;
-  border: 1px solid #e2d9c2;
-  border-top: 3px solid #c19a2e;
-  border-radius: 0.9rem;
-  box-shadow: 0 1px 2px rgba(14, 42, 71, 0.08), 0 10px 26px -20px rgba(14, 42, 71, 0.45);
+.card-flat {
+  background: #ffffff;
+  border: 1px solid #dcdce5;
+  border-radius: 16px;
 }
 
 .card-hover {
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
 .card-hover:hover {
   transform: translateY(-3px);
-  border-color: #c19a2e;
-  box-shadow: 0 2px 4px rgba(14, 42, 71, 0.1), 0 18px 36px -20px rgba(14, 42, 71, 0.5);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 }
 
+/* ---------- Buttons (pill-first) ---------- */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.6rem;
-  background: #0e2a47;
-  border: 1px solid #0e2a47;
+  height: 48px;
+  padding: 0 32px;
+  border-radius: 9999px;
+  background: #7c3bed;
+  border: 0;
   color: #fff;
-  font-weight: 700;
-  padding: 0.7rem 1.4rem;
-  box-shadow: 0 8px 18px -10px rgba(14, 42, 71, 0.8);
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  box-shadow: rgba(124, 59, 237, 0.2) 0px 10px 15px -3px, rgba(124, 59, 237, 0.2) 0px 4px 6px -4px;
+  transition: filter 0.15s ease, transform 0.15s ease;
 }
 .btn-primary:hover {
-  background: #1d4a7a;
-  border-color: #c19a2e;
+  filter: brightness(1.07);
 }
 .btn-primary:active {
   transform: scale(0.98);
@@ -77,25 +93,71 @@ body {
   cursor: not-allowed;
 }
 
+.btn-found {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 56px;
+  padding: 0 40px;
+  border-radius: 16px;
+  background: #18bf8d;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
+  box-shadow: rgba(24, 191, 141, 0.2) 0px 10px 15px -3px, rgba(24, 191, 141, 0.2) 0px 4px 6px -4px;
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+.btn-found:hover {
+  filter: brightness(1.06);
+}
+.btn-found:active {
+  transform: scale(0.98);
+}
+
+.btn-lost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 56px;
+  padding: 0 40px;
+  border-radius: 16px;
+  background: #f43e5c;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
+  box-shadow: rgba(244, 62, 92, 0.2) 0px 10px 15px -3px, rgba(244, 62, 92, 0.2) 0px 4px 6px -4px;
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+.btn-lost:hover {
+  filter: brightness(1.06);
+}
+.btn-lost:active {
+  transform: scale(0.98);
+}
+
+/* Legacy alias (was gold) -> maps to primary pill */
 .btn-gold {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.6rem;
-  background: linear-gradient(180deg, #e8cf7a, #c19a2e);
-  border: 1px solid #8a6d1c;
-  color: #0e2a47;
-  font-weight: 800;
-  padding: 0.7rem 1.4rem;
-  box-shadow: 0 8px 18px -10px rgba(138, 109, 28, 0.9);
+  height: 48px;
+  padding: 0 32px;
+  border-radius: 9999px;
+  background: #7c3bed;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: rgba(124, 59, 237, 0.2) 0px 10px 15px -3px, rgba(124, 59, 237, 0.2) 0px 4px 6px -4px;
   transition: filter 0.15s ease, transform 0.15s ease;
 }
 .btn-gold:hover {
-  filter: brightness(1.06);
-}
-.btn-gold:active {
-  transform: scale(0.98);
+  filter: brightness(1.07);
 }
 
 .btn-outline-light {
@@ -103,16 +165,20 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.6rem;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  color: #fff;
+  height: 40px;
+  padding: 8px 20px;
+  border-radius: 12px;
+  border: 2px solid #dcdce5;
+  background: transparent;
+  color: #17171c;
+  font-size: 14px;
   font-weight: 600;
-  padding: 0.7rem 1.4rem;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  line-height: 20px;
+  transition: border-color 0.15s ease, background 0.15s ease;
 }
 .btn-outline-light:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #e8cf7a;
+  border-color: #7c3bed;
+  background: rgba(124, 59, 237, 0.1);
 }
 
 .btn-ghost {
@@ -120,68 +186,153 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.6rem;
-  border: 1px solid #d8cfae;
-  background: #fffdf8;
+  height: 40px;
+  padding: 8px 20px;
+  border-radius: 12px;
+  border: 2px solid #dcdce5;
+  background: transparent;
+  color: #17171c;
+  font-size: 14px;
   font-weight: 600;
-  padding: 0.7rem 1.2rem;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  line-height: 20px;
+  transition: border-color 0.15s ease, background 0.15s ease;
 }
 .btn-ghost:hover {
-  background: #f3ecd9;
-  border-color: #c19a2e;
+  border-color: #7c3bed;
+  background: rgba(124, 59, 237, 0.08);
 }
 
+.btn-tint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 36px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 0;
+  background: rgba(124, 59, 237, 0.15);
+  color: #7c3bed;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+}
+
+/* ---------- Inputs (pill) ---------- */
 .input {
   width: 100%;
-  border-radius: 0.6rem;
-  border: 1px solid #d8cfae;
+  border-radius: 9999px;
+  border: 1px solid #dcdce5;
   background: #fff;
-  padding: 0.7rem 1rem;
-  font-size: 0.95rem;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #17171c;
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
+textarea.input {
+  border-radius: 16px;
+}
 .input:focus {
-  border-color: #0e2a47;
-  box-shadow: 0 0 0 3px rgba(193, 154, 46, 0.3);
+  border-color: #7c3bed;
+  box-shadow: rgba(124, 59, 237, 0.2) 0px 10px 15px -3px, rgba(124, 59, 237, 0.12) 0px 4px 6px -4px;
 }
 .input::placeholder {
-  color: #9a937e;
+  color: rgba(103, 103, 126, 0.5);
 }
 
 .label {
   display: block;
   margin-bottom: 0.35rem;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #5c5644;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #17171c;
 }
 
+/* ---------- Helpers ---------- */
 .chip-active {
-  background: #0e2a47 !important;
+  background: #7c3bed !important;
   color: #fff !important;
-  border-color: #0e2a47 !important;
+  border-color: #7c3bed !important;
+  box-shadow: rgba(124, 59, 237, 0.2) 0px 10px 15px -3px, rgba(124, 59, 237, 0.2) 0px 4px 6px -4px;
+}
+
+.hero-band {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(124, 59, 237, 0.15) 0%, rgba(0, 0, 0, 0) 40%),
+    radial-gradient(circle at 85% 25%, rgba(0, 193, 214, 0.18) 0%, rgba(0, 0, 0, 0) 42%),
+    radial-gradient(circle at 70% 85%, rgba(24, 191, 141, 0.14) 0%, rgba(0, 0, 0, 0) 45%),
+    linear-gradient(rgb(249, 249, 251) 0%, rgb(244, 242, 248) 100%);
 }
 
 .hero-grid {
-  background-image: radial-gradient(circle at 1px 1px, rgba(232, 207, 122, 0.25) 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(124, 59, 237, 0.18) 1px, transparent 0);
   background-size: 22px 22px;
+}
+
+.display-hero {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.9px;
+}
+@media (min-width: 768px) {
+  .display-hero {
+    font-size: 60px;
+    letter-spacing: -1.5px;
+  }
+}
+@media (min-width: 1024px) {
+  .display-hero {
+    font-size: 72px;
+    letter-spacing: -1.8px;
+  }
+}
+
+.badge-lost {
+  background: #f43e5c;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 9999px;
+}
+.badge-found {
+  background: #18bf8d;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 9999px;
+}
+.badge-verified {
+  background: rgba(0, 193, 214, 0.2);
+  color: #00c1d6;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 9999px;
 }
 
 .skeleton {
   position: relative;
   overflow: hidden;
-  background: #e8e0cb;
-  border-radius: 0.9rem;
+  background: #ececf1;
+  border-radius: 16px;
 }
 .skeleton::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 253, 248, 0.8), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
   animation: shimmer 1.4s infinite;
 }
 @keyframes shimmer {

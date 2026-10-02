@@ -67,7 +67,7 @@ export default function ItemPage({ params }: { params: Promise<{ id: string }> }
   if (error)
     return (
       <div className="card mx-auto max-w-xl p-8 text-center">
-        <p role="alert" className="text-sm font-medium text-rose-700">
+          <p role="alert" className="text-sm font-medium text-danger">
           {error}
         </p>
         <Link href="/" className="btn-ghost mt-4 text-sm">
@@ -85,14 +85,14 @@ export default function ItemPage({ params }: { params: Promise<{ id: string }> }
 
   return (
     <div className="mx-auto max-w-5xl space-y-5">
-      <Link href="/" className="text-sm font-bold text-slate-500 hover:text-navy-700">
+      <Link href="/" className="text-sm font-semibold text-body hover:text-primary">
         ← Back to browse
       </Link>
 
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid gap-8 lg:grid-cols-3">
         {/* Main */}
         <div className="card overflow-hidden lg:col-span-2">
-          <div className="relative h-64 bg-linear-to-br from-[#e8e0cb] via-parchment to-gold-300/50 sm:h-80">
+          <div className="relative h-64 bg-[radial-gradient(circle,rgba(124,59,237,0.15)_0%,rgba(0,0,0,0)_70%),linear-gradient(135deg,#f4f2f8,#e6f7f2)] sm:h-80">
             {item.imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={item.imageUrl} alt={`Photo of ${item.title}`} className="h-full w-full object-cover" />
@@ -102,52 +102,46 @@ export default function ItemPage({ params }: { params: Promise<{ id: string }> }
               </div>
             )}
             <div className="absolute left-4 top-4 flex gap-1.5">
-              <span
-                className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide text-white ${
-                  item.type === "lost" ? "bg-[#7a1f1f]" : "bg-[#1f5c3d]"
-                }`}
-              >
-                {item.type}
-              </span>
+              <span className={item.type === "lost" ? "badge-lost" : "badge-found"}>{item.type}</span>
               <StatusBadge status={item.status} />
             </div>
           </div>
 
           <div className="space-y-3 p-6">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+            <p className="btn-tint w-fit">
               {meta!.icon} {meta!.label} · {item.eventDate}
             </p>
-            <h1 className="text-2xl font-black tracking-tight sm:text-3xl">{item.title}</h1>
-            <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-slate-600">{item.description}</p>
+            <h1 className="text-2xl font-bold tracking-[-0.75px] text-ink sm:text-3xl">{item.title}</h1>
+            <p className="whitespace-pre-wrap text-base leading-[1.63] text-body">{item.description}</p>
             {item.tags.length ? (
               <p className="flex flex-wrap gap-1.5">
                 {item.tags.map((t) => (
-                  <span key={t} className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
+                  <span key={t} className="rounded-full bg-[rgba(124,59,237,0.15)] px-2.5 py-1 text-xs font-medium text-primary">
                     #{t}
                   </span>
                 ))}
               </p>
             ) : null}
-            <div className="grid gap-2 rounded-2xl bg-slate-50 p-4 text-sm sm:grid-cols-3">
+            <div className="grid gap-2 rounded-2xl border border-hairline bg-canvas p-4 text-sm sm:grid-cols-3">
               <p>
-                <span className="block text-[11px] font-bold uppercase tracking-wide text-slate-400">Location</span>
-                <span className="font-semibold">📍 {item.location}</span>
+                <span className="block text-[12px] font-semibold uppercase tracking-[0.3px] text-body">Location</span>
+                <span className="font-semibold text-ink">📍 {item.location}</span>
               </p>
               <p>
-                <span className="block text-[11px] font-bold uppercase tracking-wide text-slate-400">Posted by</span>
-                <span className="font-semibold">👤 {item.ownerName}</span>
+                <span className="block text-[12px] font-semibold uppercase tracking-[0.3px] text-body">Posted by</span>
+                <span className="font-semibold text-ink">👤 {item.ownerName}</span>
               </p>
               <p>
-                <span className="block text-[11px] font-bold uppercase tracking-wide text-slate-400">Date</span>
-                <span className="font-semibold">📅 {item.eventDate}</span>
+                <span className="block text-[12px] font-semibold uppercase tracking-[0.3px] text-body">Date</span>
+                <span className="font-semibold text-ink">📅 {item.eventDate}</span>
               </p>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-body">
               Privacy: contact details stay hidden until a claim is accepted. Never share full ID numbers publicly.
             </p>
             {/* TODO (Tausiful Islam): "Mark as returned" — owner/admin sets status → resolved.
                 See todo.md Task 3. Intentionally disabled until implemented. */}
-            <div className="flex flex-wrap items-center gap-2 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-3 pt-3">
+            <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-dashed border-hairline bg-canvas p-3 pt-3">
               <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-800">
                 TODO · Tausiful Islam
               </span>
@@ -162,14 +156,14 @@ export default function ItemPage({ params }: { params: Promise<{ id: string }> }
         <div className="space-y-5">
           <section aria-labelledby="claim-h" className="card space-y-3 border-dashed p-5">
             <div className="flex flex-wrap items-center gap-2">
-              <h2 id="claim-h" className="font-extrabold">
-                🙋 Claim this item
+              <h2 id="claim-h" className="text-lg font-semibold tracking-[-0.45px] text-ink">
+                Claim this item
               </h2>
               <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-800">
                 TODO · Tausiful Islam
               </span>
             </div>
-            <p className="text-xs leading-relaxed text-slate-500">
+            <p className="text-sm leading-[1.63] text-body">
               Claiming is not implemented yet. The assignee should add owner-proof + meetup-note
               fields here and wire them to <code>submitClaim()</code> (see <code>todo.md</code> Task 3).
             </p>
@@ -188,14 +182,14 @@ export default function ItemPage({ params }: { params: Promise<{ id: string }> }
 
           <section aria-labelledby="verify-h" className="card space-y-3 border-dashed p-5">
             <div className="flex flex-wrap items-center gap-2">
-              <h2 id="verify-h" className="font-extrabold">
-                🛡 Verify claims
+              <h2 id="verify-h" className="text-lg font-semibold tracking-[-0.45px] text-ink">
+                Verify claims
               </h2>
               <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-800">
                 TODO · Tausiful Islam
               </span>
             </div>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm leading-[1.63] text-body">
               Claim verification (accept / reject via <code>decideClaim()</code>) is not implemented yet.
               Poster / staff will review claims here once built.
             </p>

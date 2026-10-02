@@ -34,28 +34,28 @@ export default function RegisterPage() {
 
   return (
     <div className="mx-auto grid max-w-4xl gap-6 lg:grid-cols-2">
-      <div className="relative hidden overflow-hidden rounded-3xl bg-navy-800 p-8 text-white lg:block">
-        <div className="hero-grid absolute inset-0 bg-linear-to-br from-navy-800 via-navy-700 to-gold-600" aria-hidden />
+      <div className="hero-band relative hidden overflow-hidden rounded-2xl border border-hairline p-8 lg:block">
+        <div className="hero-grid absolute inset-0" aria-hidden />
         <div className="relative flex h-full flex-col">
-          <p className="text-5xl" aria-hidden>
+          <p className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-3xl text-white shadow-[rgba(124,59,237,0.2)_0px_10px_15px_-3px,rgba(124,59,237,0.2)_0px_4px_6px_-4px]" aria-hidden>
             🎒
           </p>
-          <h1 className="mt-4 text-3xl font-black leading-tight">Join your campus lost &amp; found</h1>
-          <p className="mt-2 text-sm leading-relaxed text-[#f3ecd9]">
+          <h1 className="mt-4 text-3xl font-bold leading-[1.2] tracking-[-0.75px] text-ink">Join the recovery network</h1>
+          <p className="mt-2 text-sm leading-[1.63] text-body">
             One account for reporting, claiming, and alerts. {demoMode ? "Demo mode stores your profile locally." : "Powered by Firebase Auth + Firestore profiles."}
           </p>
-          <ol className="mt-6 space-y-2 text-sm font-medium">
-            <li className="rounded-xl bg-white/10 p-3">1️⃣ Create your account with a campus email</li>
-            <li className="rounded-xl bg-white/10 p-3">2️⃣ Report a lost item or post a found one</li>
-            <li className="rounded-xl bg-white/10 p-3">3️⃣ Claim with proof — get it back 🎉</li>
+          <ol className="mt-6 space-y-2 text-sm font-medium text-ink">
+            <li className="card !rounded-xl p-3">1️⃣ Create your account with a campus email</li>
+            <li className="card !rounded-xl p-3">2️⃣ Report a lost item or post a found one</li>
+            <li className="card !rounded-xl p-3">3️⃣ Claim with proof — get it back 🎉</li>
           </ol>
         </div>
       </div>
 
       <div className="card space-y-4 p-6 sm:p-8">
         <div>
-          <h2 className="text-2xl font-black tracking-tight">Create your account</h2>
-          <p className="mt-1 text-sm text-slate-500">Free for students &amp; staff.</p>
+          <h2 className="text-3xl font-bold tracking-[-0.75px] text-ink">Create your account</h2>
+          <p className="mt-1 text-sm leading-[1.63] text-body">Free for students &amp; staff.</p>
         </div>
         <form onSubmit={submit} className="space-y-4">
           <div>
@@ -105,7 +105,7 @@ export default function RegisterPage() {
             />
           </div>
           {error ? (
-            <p role="alert" className="rounded-xl bg-rose-50 p-3 text-sm font-medium text-rose-900">
+            <p role="alert" className="rounded-xl bg-danger/10 p-3 text-sm font-medium text-danger">
               {error}
             </p>
           ) : null}
@@ -113,9 +113,9 @@ export default function RegisterPage() {
             {busy ? "Creating…" : "Create account →"}
           </button>
         </form>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-body">
           Already have an account?{" "}
-          <Link href="/login" className="font-bold text-navy-800 hover:underline">
+          <Link href="/login" className="font-semibold text-primary hover:underline">
             Log in
           </Link>
         </p>

@@ -29,29 +29,29 @@ export default function LoginPage() {
 
   return (
     <div className="mx-auto grid max-w-4xl gap-6 lg:grid-cols-2">
-      <div className="relative hidden overflow-hidden rounded-3xl bg-navy-800 p-8 text-white lg:block">
-        <div className="hero-grid absolute inset-0 bg-linear-to-br from-navy-800 via-navy-700 to-gold-600" aria-hidden />
+      <div className="hero-band relative hidden overflow-hidden rounded-2xl border border-hairline p-8 lg:block">
+        <div className="hero-grid absolute inset-0" aria-hidden />
         <div className="relative flex h-full flex-col">
-          <p className="text-5xl" aria-hidden>
+          <p className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-3xl text-white shadow-[rgba(124,59,237,0.2)_0px_10px_15px_-3px,rgba(124,59,237,0.2)_0px_4px_6px_-4px]" aria-hidden>
             🪃
           </p>
-          <h1 className="mt-4 text-3xl font-black leading-tight">Welcome back to Boomerang</h1>
-          <p className="mt-2 text-sm leading-relaxed text-[#f3ecd9]">
+          <h1 className="mt-4 text-3xl font-bold leading-[1.2] tracking-[-0.75px] text-ink">Welcome back</h1>
+          <p className="mt-2 text-sm leading-[1.63] text-body">
             Pick up where you left off — check your claims, review matches for your alerts, and help items find their
             owners.
           </p>
-          <ul className="mt-6 space-y-2 text-sm font-medium">
-            <li className="rounded-xl bg-white/10 p-3">🔔 Keyword alerts ping you on new matches</li>
-            <li className="rounded-xl bg-white/10 p-3">🛡 Claims are verified before handover</li>
-            <li className="rounded-xl bg-white/10 p-3">🔒 Owner details stay private by default</li>
+          <ul className="mt-6 space-y-2 text-sm font-medium text-ink">
+            <li className="card !rounded-xl p-3">🔔 Keyword alerts ping you on new matches</li>
+            <li className="card !rounded-xl p-3">🛡 Claims are verified before handover</li>
+            <li className="card !rounded-xl p-3">🔒 Owner details stay private by default</li>
           </ul>
         </div>
       </div>
 
       <div className="card space-y-4 p-6 sm:p-8">
         <div>
-          <h2 className="text-2xl font-black tracking-tight">Log in</h2>
-          <p className="mt-1 text-sm text-slate-500">
+          <h2 className="text-3xl font-bold tracking-[-0.75px] text-ink">Log in</h2>
+          <p className="mt-1 text-sm leading-[1.63] text-body">
             {demoMode ? "Demo mode — no Firebase needed yet." : "Secured with Firebase Authentication."}
           </p>
         </div>
@@ -87,7 +87,7 @@ export default function LoginPage() {
             />
           </div>
           {error ? (
-            <p role="alert" className="rounded-xl bg-rose-50 p-3 text-sm font-medium text-rose-900">
+            <p role="alert" className="rounded-xl bg-danger/10 p-3 text-sm font-medium text-danger">
               {error}
             </p>
           ) : null}
@@ -106,9 +106,9 @@ export default function LoginPage() {
             </p>
           </div>
         ) : null}
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-body">
           No account?{" "}
-          <Link href="/register" className="font-bold text-navy-800 hover:underline">
+          <Link href="/register" className="font-semibold text-primary hover:underline">
             Create one
           </Link>
         </p>

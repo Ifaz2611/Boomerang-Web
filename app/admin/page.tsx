@@ -55,8 +55,8 @@ export default function AdminPage() {
         <p className="text-4xl" aria-hidden>
           🛡
         </p>
-        <h1 className="text-xl font-black">Security office only</h1>
-        <p className="text-sm text-slate-500">
+        <h1 className="text-xl font-bold tracking-[-0.45px] text-ink">Security office only</h1>
+        <p className="text-sm text-body">
           Log in with a staff account{!user ? " to moderate listings" : " — your account isn't staff"}.
           {user ? "" : " In demo mode use admin@campus.edu / Admin123!."}
         </p>
@@ -76,9 +76,9 @@ export default function AdminPage() {
   return (
     <div className="space-y-5">
       <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-gold-600">Moderation</p>
-        <h1 className="text-3xl font-black tracking-tight">🛡 Security office</h1>
-        <p className="mt-1 text-sm text-slate-500">Review new reports, publish them, and resolve handovers.</p>
+        <p className="btn-tint w-fit">Moderation</p>
+        <h1 className="mt-2 text-3xl font-bold leading-[1.2] tracking-[-0.75px] text-ink">Security office</h1>
+        <p className="mt-1 text-sm leading-[1.63] text-body">Review new reports, publish them, and resolve handovers.</p>
         <p role="note" className="mt-2 rounded-xl border border-dashed border-amber-300 bg-amber-50 p-3 text-sm font-medium text-amber-900">
           🚧 TODO · assigned: Mirza Rafi — moderation actions (Publish / Reject / Resolve via{" "}
           <code>setItemStatus()</code>) are stubbed. Queue listing works; actions show this notice until{" "}
@@ -93,7 +93,7 @@ export default function AdminPage() {
             role="tab"
             aria-selected={tab === t}
             onClick={() => setTab(t)}
-            className={`rounded-full px-4 py-2 text-sm font-bold ${tab === t ? "chip-active" : "card hover:border-gold-500"}`}
+            className={`h-10 rounded-full px-4 py-2 text-sm font-semibold ${tab === t ? "chip-active" : "card hover:border-primary"}`}
           >
             {t} · {counts[t] ?? 0}
           </button>
@@ -117,18 +117,18 @@ export default function AdminPage() {
           <p className="text-4xl" aria-hidden>
             ✨
           </p>
-          <p className="mt-2 font-extrabold">Queue clear</p>
-          <p className="text-sm text-slate-500">Nothing in “{tab}” right now.</p>
+          <p className="mt-2 text-lg font-semibold text-ink">Queue clear</p>
+          <p className="text-sm text-body">Nothing in “{tab}” right now.</p>
         </div>
       ) : (
         <ul className="space-y-2">
           {items.map((it) => (
             <li key={it.id} className="card flex flex-wrap items-center gap-3 p-4">
               <div className="min-w-0 flex-1">
-                <Link href={`/items/${it.id}`} className="font-extrabold hover:text-navy-700 hover:underline">
+                <Link href={`/items/${it.id}`} className="font-semibold text-ink hover:text-primary hover:underline">
                   {it.title}
                 </Link>
-                <p className="truncate text-xs text-slate-500">
+                <p className="truncate text-xs text-body">
                   {it.type} · {it.location} · {it.eventDate} · by {it.ownerName}
                 </p>
               </div>

@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-full flex-col">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:m-2 focus:rounded-lg focus:bg-navy-800 focus:p-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:absolute focus:m-2 focus:rounded-xl focus:bg-primary focus:p-2 focus:text-white"
         >
           Skip to content
         </a>
@@ -26,20 +26,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Demo mode — add your Firebase keys to <code>.env.local</code> to go live. Data is stored locally until then.
             </p>
           ) : null}
-          <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6">
+          <main id="main" className="mx-auto w-full max-w-[1400px] flex-1 px-4 py-14 sm:px-6">
             {children}
           </main>
-          <footer className="bg-navy-800 py-6 text-white">
-            <div className="h-px bg-linear-to-r from-transparent via-gold-500 to-transparent" aria-hidden />
-            <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 pt-5 text-center sm:flex-row sm:justify-between sm:text-left">
-              <p className="flex items-center gap-2 font-display text-sm font-bold">
-                <span className="inline-flex h-7 w-7 items-center justify-center rounded bg-linear-to-b from-gold-300 to-gold-500 text-navy-800">
+          <footer className="border-t border-hairline bg-white/80 py-8 backdrop-blur">
+            <div className="mx-auto flex max-w-[1400px] flex-col items-center gap-3 px-4 text-center sm:flex-row sm:justify-between sm:text-left">
+              <p className="flex items-center gap-2 text-sm font-bold text-ink">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary text-base font-bold text-white shadow-[rgba(124,59,237,0.2)_0px_10px_15px_-3px,rgba(124,59,237,0.2)_0px_4px_6px_-4px]">
                   B
                 </span>
-                Boomerang · Office of Lost &amp; Found
+                Boomerang · Lost &amp; Found Portal
               </p>
-              <p className="text-xs text-slate-300">
-                The Campus Lost &amp; Found Registry · owner particulars remain private until a claim is accepted
+              <p className="max-w-md text-xs leading-relaxed text-body">
+                A community recovery network · owner details stay private until a claim is accepted
               </p>
             </div>
           </footer>
