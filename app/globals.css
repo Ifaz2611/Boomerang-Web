@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dfe9fd;
+  --color-brand-500: #3b63f3;
+  --color-brand-600: #2f4fe0;
+  --color-brand-700: #2740b8;
+  --color-mint-400: #2dd4bf;
+  --color-mint-500: #14b8a6;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: #f6f7fb;
+  color: #131627;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reusable campus-card system */
+.card {
+  background: #fff;
+  border: 1px solid #e8eaf2;
+  border-radius: 1.25rem;
+  box-shadow: 0 1px 2px rgba(19, 22, 39, 0.05), 0 8px 24px -16px rgba(47, 79, 224, 0.25);
+}
+
+.card-hover {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  border-color: #c9d4fb;
+  box-shadow: 0 2px 4px rgba(19, 22, 39, 0.06), 0 18px 38px -18px rgba(47, 79, 224, 0.4);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.9rem;
+  background: linear-gradient(135deg, #2f4fe0, #6a5df7);
+  color: #fff;
+  font-weight: 700;
+  padding: 0.7rem 1.4rem;
+  box-shadow: 0 10px 22px -10px rgba(47, 79, 224, 0.7);
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+.btn-primary:hover {
+  filter: brightness(1.06);
+}
+.btn-primary:active {
+  transform: scale(0.98);
+}
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.9rem;
+  border: 1px solid #dfe3ef;
+  background: #fff;
+  font-weight: 600;
+  padding: 0.7rem 1.2rem;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.btn-ghost:hover {
+  background: #f1f3fb;
+  border-color: #c9d4fb;
+}
+
+.input {
+  width: 100%;
+  border-radius: 0.9rem;
+  border: 1px solid #dfe3ef;
+  background: #fff;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.input:focus {
+  border-color: #3b63f3;
+  box-shadow: 0 0 0 4px rgba(59, 99, 243, 0.15);
+}
+.input::placeholder {
+  color: #9aa1b5;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #5b6378;
+}
+
+.chip-active {
+  background: #131627 !important;
+  color: #fff !important;
+  border-color: #131627 !important;
+}
+
+.hero-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.22) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #e9ecf4;
+  border-radius: 1.25rem;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
