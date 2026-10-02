@@ -73,7 +73,7 @@ export default function KeywordsPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-5">
       <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">Alerts</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-[#8a6d1c]">Alerts</p>
         <h1 className="text-3xl font-black tracking-tight">Never miss a match</h1>
         <p className="mt-1 text-sm text-slate-500">Save keywords — new posts matching them show up below.</p>
       </div>
@@ -106,7 +106,7 @@ export default function KeywordsPage() {
             key={s}
             type="button"
             onClick={() => setInput(s)}
-            className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-600 hover:border-indigo-300"
+            className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-600 hover:border-[#c19a2e]"
           >
             {s}
           </button>
@@ -124,7 +124,7 @@ export default function KeywordsPage() {
             {keywords.map((k) => (
               <li
                 key={k.id}
-                className="flex items-center gap-2 rounded-full bg-indigo-50 py-1.5 pl-3 pr-2 text-sm font-bold text-indigo-900"
+                className="flex items-center gap-2 rounded-full bg-[#f3ecd9] py-1.5 pl-3 pr-2 text-sm font-bold text-[#0e2a47]"
               >
                 🔎 {k.keyword}
                 <button
@@ -175,8 +175,8 @@ export default function KeywordsPage() {
         ) : (
           <ul className="space-y-2">
             {notifs.map((n) => (
-              <li key={n.id} className={`card p-4 text-sm ${n.read ? "opacity-70" : "border-indigo-300"}`}>
-                <Link href={`/items/${n.itemId}`} className="font-bold hover:text-indigo-700 hover:underline">
+              <li key={n.id} className={`card p-4 text-sm ${n.read ? "opacity-70" : "border-[#c19a2e]"}`}>
+                <Link href={`/items/${n.itemId}`} className="font-bold hover:text-[#1d4a7a] hover:underline">
                   {n.message}
                 </Link>
                 <p className="mt-0.5 text-xs text-slate-400">

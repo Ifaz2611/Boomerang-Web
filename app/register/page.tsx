@@ -34,14 +34,14 @@ export default function RegisterPage() {
 
   return (
     <div className="mx-auto grid max-w-4xl gap-6 lg:grid-cols-2">
-      <div className="relative hidden overflow-hidden rounded-3xl bg-slate-900 p-8 text-white lg:block">
-        <div className="hero-grid absolute inset-0 bg-gradient-to-br from-teal-500 via-indigo-600 to-violet-800" aria-hidden />
+      <div className="relative hidden overflow-hidden rounded-3xl bg-[#0e2a47] p-8 text-white lg:block">
+        <div className="hero-grid absolute inset-0 bg-gradient-to-br from-[#0e2a47] via-[#1d4a7a] to-[#8a6d1c]" aria-hidden />
         <div className="relative flex h-full flex-col">
           <p className="text-5xl" aria-hidden>
             🎒
           </p>
           <h1 className="mt-4 text-3xl font-black leading-tight">Join your campus lost &amp; found</h1>
-          <p className="mt-2 text-sm leading-relaxed text-indigo-100">
+          <p className="mt-2 text-sm leading-relaxed text-[#f3ecd9]">
             One account for reporting, claiming, and alerts. {demoMode ? "Demo mode stores your profile locally." : "Powered by Firebase Auth + Firestore profiles."}
           </p>
           <ol className="mt-6 space-y-2 text-sm font-medium">
@@ -115,7 +115,7 @@ export default function RegisterPage() {
         </form>
         <p className="text-sm text-slate-500">
           Already have an account?{" "}
-          <Link href="/login" className="font-bold text-indigo-600 hover:underline">
+          <Link href="/login" className="font-bold text-[#0e2a47] hover:underline">
             Log in
           </Link>
         </p>

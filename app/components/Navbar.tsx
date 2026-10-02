@@ -7,11 +7,11 @@ import { useAuth } from "@/lib/auth-context";
 import { listNotifications } from "@/lib/data";
 
 const LINKS = [
-  { href: "/", label: "Browse", icon: "🧭" },
-  { href: "/items/new", label: "Report", icon: "＋" },
-  { href: "/dashboard", label: "My posts", icon: "🗂" },
-  { href: "/keywords", label: "Alerts", icon: "🔔" },
-  { href: "/admin", label: "Security", icon: "🛡", adminOnly: true },
+  { href: "/", label: "Registry", icon: "❦" },
+  { href: "/items/new", label: "File Entry", icon: "✒" },
+  { href: "/dashboard", label: "My Entries", icon: "🗂" },
+  { href: "/keywords", label: "Notifications", icon: "🔔" },
+  { href: "/admin", label: "Security Office", icon: "🛡", adminOnly: true },
 ];
 
 export default function Navbar() {
@@ -35,15 +35,18 @@ export default function Navbar() {
   const visible = LINKS.filter((l) => !l.adminOnly || user?.role === "admin");
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-30 bg-[#0e2a47] text-white shadow-lg">
+      <div className="h-1 bg-gradient-to-r from-[#c19a2e] via-[#e8cf7a] to-[#c19a2e]" aria-hidden />
       <nav aria-label="Primary" className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-3 sm:px-6">
         <Link href="/" className="mr-1 flex items-center gap-2.5" aria-label="Boomerang home">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 via-indigo-500 to-violet-500 text-lg font-black text-white shadow-lg shadow-indigo-600/30">
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-b from-[#e8cf7a] to-[#c19a2e] font-display text-xl font-black text-[#0e2a47]">
             B
           </span>
           <span className="leading-tight">
-            <span className="block text-[15px] font-extrabold tracking-tight">Boomerang</span>
-            <span className="block text-[11px] font-medium text-slate-500">Campus lost &amp; found</span>
+            <span className="block font-display text-lg font-bold tracking-tight">Boomerang</span>
+            <span className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#e8cf7a]">
+              Office of Lost &amp; Found
+            </span>
           </span>
         </Link>
 
@@ -55,14 +58,16 @@ export default function Navbar() {
                 key={l.href}
                 href={l.href}
                 aria-current={active ? "page" : undefined}
-                className={`relative rounded-xl px-3.5 py-2 text-sm font-semibold transition-colors ${
-                  active ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                className={`relative rounded-md px-3.5 py-2 text-sm font-semibold transition-colors ${
+                  active
+                    ? "bg-white/10 text-[#e8cf7a] underline decoration-[#c19a2e] decoration-2 underline-offset-8"
+                    : "text-slate-200 hover:bg-white/10 hover:text-white"
                 }`}
               >
                 {l.label}
                 {l.href === "/keywords" && unread > 0 && (
                   <span
-                    className="absolute -right-1 -top-1 min-w-5 rounded-full bg-rose-500 px-1 text-center text-[11px] font-bold text-white"
+                    className="absolute -right-1 -top-1 min-w-5 rounded-full bg-[#c19a2e] px-1 text-center text-[11px] font-bold text-[#0e2a47]"
                     aria-label={`${unread} unread notifications`}
                   >
                     {unread}
@@ -77,13 +82,13 @@ export default function Navbar() {
 
         {user ? (
           <div className="hidden items-center gap-3 lg:flex">
-            <span className="flex items-center gap-2 rounded-full bg-slate-100 py-1 pl-1 pr-3 text-sm font-semibold">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-teal-400 to-indigo-500 text-xs font-bold text-white">
+            <span className="flex items-center gap-2 rounded-full bg-white/10 py-1 pl-1 pr-3 text-sm font-semibold">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-[#e8cf7a] to-[#c19a2e] font-display text-xs font-bold text-[#0e2a47]">
                 {user.name.slice(0, 1).toUpperCase()}
               </span>
               {user.name}
               {user.role === "admin" ? (
-                <span className="rounded-full bg-indigo-600 px-2 py-0.5 text-[10px] font-bold uppercase text-white">staff</span>
+                <span className="rounded-full bg-[#c19a2e] px-2 py-0.5 text-[10px] font-bold uppercase text-[#0e2a47]">staff</span>
               ) : null}
             </span>
             <button
@@ -92,25 +97,25 @@ export default function Navbar() {
                 await signOutUser();
                 router.push("/");
               }}
-              className="btn-ghost !py-2 text-sm"
+              className="rounded-md border border-white/30 px-3 py-2 text-sm font-semibold hover:border-[#e8cf7a] hover:text-[#e8cf7a]"
             >
-              Log out
+              Sign out
             </button>
           </div>
         ) : (
           <div className="hidden items-center gap-2 lg:flex">
-            <Link href="/login" className="rounded-xl px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100">
-              Log in
+            <Link href="/login" className="rounded-md px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 hover:text-white">
+              Sign in
             </Link>
-            <Link href="/register" className="btn-primary !py-2 text-sm">
-              Join campus
+            <Link href="/register" className="btn-gold !py-2 text-sm">
+              Join the university
             </Link>
           </div>
         )}
 
         <button
           type="button"
-          className="btn-ghost !px-3 !py-2 lg:hidden"
+          className="rounded-md border border-white/30 px-3 py-2 lg:hidden"
           aria-expanded={open}
           aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
@@ -120,18 +125,18 @@ export default function Navbar() {
       </nav>
 
       {open ? (
-        <div className="space-y-1 border-t border-slate-200 bg-white px-4 py-3 lg:hidden">
+        <div className="space-y-1 border-t border-white/15 bg-[#0a1f36] px-4 py-3 lg:hidden">
           {visible.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className={`flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold ${
-                pathname === l.href ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"
+              className={`flex items-center gap-2 rounded-md px-3 py-2.5 text-sm font-semibold ${
+                pathname === l.href ? "bg-white/10 text-[#e8cf7a]" : "text-slate-200 hover:bg-white/10"
               }`}
             >
               <span aria-hidden>{l.icon}</span> {l.label}
               {l.href === "/keywords" && unread > 0 ? (
-                <span className="ml-auto rounded-full bg-rose-500 px-2 text-xs font-bold text-white">{unread}</span>
+                <span className="ml-auto rounded-full bg-[#c19a2e] px-2 text-xs font-bold text-[#0e2a47]">{unread}</span>
               ) : null}
             </Link>
           ))}
@@ -143,17 +148,17 @@ export default function Navbar() {
                   await signOutUser();
                   router.push("/");
                 }}
-                className="btn-ghost flex-1 text-sm"
+                className="w-full rounded-md border border-white/30 px-3 py-2 text-sm font-semibold"
               >
-                Log out ({user.name})
+                Sign out ({user.name})
               </button>
             ) : (
               <>
-                <Link href="/login" className="btn-ghost flex-1 text-sm">
-                  Log in
+                <Link href="/login" className="flex-1 rounded-md border border-white/30 px-3 py-2 text-center text-sm font-semibold">
+                  Sign in
                 </Link>
-                <Link href="/register" className="btn-primary flex-1 text-sm">
-                  Join campus
+                <Link href="/register" className="btn-gold flex-1 text-center text-sm">
+                  Join
                 </Link>
               </>
             )}

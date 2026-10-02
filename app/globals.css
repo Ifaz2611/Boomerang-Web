@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --color-brand-50: #eef4ff;
-  --color-brand-100: #dfe9fd;
-  --color-brand-500: #3b63f3;
-  --color-brand-600: #2f4fe0;
-  --color-brand-700: #2740b8;
-  --color-mint-400: #2dd4bf;
-  --color-mint-500: #14b8a6;
+  --font-sans: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-display: Georgia, "Palatino Linotype", "Book Antiqua", "Times New Roman", serif;
+  --color-navy-900: #0a1f36;
+  --color-navy-800: #0e2a47;
+  --color-navy-700: #1d4a7a;
+  --color-gold-600: #8a6d1c;
+  --color-gold-500: #c19a2e;
+  --color-gold-300: #e8cf7a;
+  --color-parchment: #f6f1e6;
 }
 
 :root {
@@ -21,17 +22,24 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background: #f6f7fb;
-  color: #131627;
+  background: #f6f1e6;
+  background-image: radial-gradient(circle at 1px 1px, rgba(14, 42, 71, 0.05) 1px, transparent 0);
+  background-size: 26px 26px;
+  color: #232838;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Reusable campus-card system */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* University registry system — ivory cards, navy ink, gold rules */
 .card {
-  background: #fff;
-  border: 1px solid #e8eaf2;
-  border-radius: 1.25rem;
-  box-shadow: 0 1px 2px rgba(19, 22, 39, 0.05), 0 8px 24px -16px rgba(47, 79, 224, 0.25);
+  background: #fffdf8;
+  border: 1px solid #e2d9c2;
+  border-top: 3px solid #c19a2e;
+  border-radius: 0.9rem;
+  box-shadow: 0 1px 2px rgba(14, 42, 71, 0.08), 0 10px 26px -20px rgba(14, 42, 71, 0.45);
 }
 
 .card-hover {
@@ -39,8 +47,8 @@ body {
 }
 .card-hover:hover {
   transform: translateY(-3px);
-  border-color: #c9d4fb;
-  box-shadow: 0 2px 4px rgba(19, 22, 39, 0.06), 0 18px 38px -18px rgba(47, 79, 224, 0.4);
+  border-color: #c19a2e;
+  box-shadow: 0 2px 4px rgba(14, 42, 71, 0.1), 0 18px 36px -20px rgba(14, 42, 71, 0.5);
 }
 
 .btn-primary {
@@ -48,16 +56,18 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.9rem;
-  background: linear-gradient(135deg, #2f4fe0, #6a5df7);
+  border-radius: 0.6rem;
+  background: #0e2a47;
+  border: 1px solid #0e2a47;
   color: #fff;
   font-weight: 700;
   padding: 0.7rem 1.4rem;
-  box-shadow: 0 10px 22px -10px rgba(47, 79, 224, 0.7);
-  transition: filter 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 8px 18px -10px rgba(14, 42, 71, 0.8);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 .btn-primary:hover {
-  filter: brightness(1.06);
+  background: #1d4a7a;
+  border-color: #c19a2e;
 }
 .btn-primary:active {
   transform: scale(0.98);
@@ -67,27 +77,65 @@ body {
   cursor: not-allowed;
 }
 
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.6rem;
+  background: linear-gradient(180deg, #e8cf7a, #c19a2e);
+  border: 1px solid #8a6d1c;
+  color: #0e2a47;
+  font-weight: 800;
+  padding: 0.7rem 1.4rem;
+  box-shadow: 0 8px 18px -10px rgba(138, 109, 28, 0.9);
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+.btn-gold:hover {
+  filter: brightness(1.06);
+}
+.btn-gold:active {
+  transform: scale(0.98);
+}
+
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.7rem 1.4rem;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #e8cf7a;
+}
+
 .btn-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.9rem;
-  border: 1px solid #dfe3ef;
-  background: #fff;
+  border-radius: 0.6rem;
+  border: 1px solid #d8cfae;
+  background: #fffdf8;
   font-weight: 600;
   padding: 0.7rem 1.2rem;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 .btn-ghost:hover {
-  background: #f1f3fb;
-  border-color: #c9d4fb;
+  background: #f3ecd9;
+  border-color: #c19a2e;
 }
 
 .input {
   width: 100%;
-  border-radius: 0.9rem;
-  border: 1px solid #dfe3ef;
+  border-radius: 0.6rem;
+  border: 1px solid #d8cfae;
   background: #fff;
   padding: 0.7rem 1rem;
   font-size: 0.95rem;
@@ -95,11 +143,11 @@ body {
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 .input:focus {
-  border-color: #3b63f3;
-  box-shadow: 0 0 0 4px rgba(59, 99, 243, 0.15);
+  border-color: #0e2a47;
+  box-shadow: 0 0 0 3px rgba(193, 154, 46, 0.3);
 }
 .input::placeholder {
-  color: #9aa1b5;
+  color: #9a937e;
 }
 
 .label {
@@ -107,33 +155,33 @@ body {
   margin-bottom: 0.35rem;
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #5b6378;
+  color: #5c5644;
 }
 
 .chip-active {
-  background: #131627 !important;
+  background: #0e2a47 !important;
   color: #fff !important;
-  border-color: #131627 !important;
+  border-color: #0e2a47 !important;
 }
 
 .hero-grid {
-  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.22) 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(232, 207, 122, 0.25) 1px, transparent 0);
   background-size: 22px 22px;
 }
 
 .skeleton {
   position: relative;
   overflow: hidden;
-  background: #e9ecf4;
-  border-radius: 1.25rem;
+  background: #e8e0cb;
+  border-radius: 0.9rem;
 }
 .skeleton::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 253, 248, 0.8), transparent);
   animation: shimmer 1.4s infinite;
 }
 @keyframes shimmer {

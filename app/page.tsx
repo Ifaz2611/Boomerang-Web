@@ -5,13 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import ItemCard from "./components/ItemCard";
 import { useAuth } from "@/lib/auth-context";
 import { fetchItems } from "@/lib/data";
-import { CATEGORIES, CATEGORY_META, type Item } from "@/lib/types";
+import type { Item } from "@/lib/types";
 
-const TYPE_TABS = [
-  { value: "", label: "Everything" },
-  { value: "lost", label: "🔍 Lost" },
-  { value: "found", label: "✋ Found" },
-] as const;
+const STEPS = [
+  { n: "I", title: "Report to the registry", text: "File a lost or found entry with the place, date, and distinguishing marks." },
+  { n: "II", title: "Claim with proof", text: "The owner submits evidence only they would know — contents, engravings, marks." },
+  { n: "III", title: "Verified return", text: "The poster or the Security Office verifies the claim and records the handover." },
+];
 
 export default function Home() {
   const { user } = useAuth();
@@ -19,34 +19,23 @@ export default function Home() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [query, setQuery] = useState("");
-  const [type, setType] = useState<"" | "lost" | "found">("");
-  const [category, setCategory] = useState("");
-  const [location, setLocation] = useState("");
-  const [showFilters, setShowFilters] = useState(false);
 
-  async function search(next?: { query?: string; type?: string; category?: string; location?: string }) {
+  async function load() {
     setLoading(true);
     setError("");
     try {
-      const d = await fetchItems({
-        query: next?.query ?? query,
-        type: (next?.type ?? type) as "" | "lost" | "found",
-        category: next?.category ?? category,
-        location: next?.location ?? location,
-      });
+      const d = await fetchItems({});
       setItems(d.items);
       setTotal(d.total);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Search failed. Check your Firebase config.");
+      setError(e instanceof Error ? e.message : "The registry could not be loaded. Please try again later.");
     } finally {
       setLoading(false);
     }
   }
 
   useEffect(() => {
-    search({ query: "", type: "", category: "", location: "" });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    load();
   }, []);
 
   const stats = useMemo(
@@ -59,186 +48,124 @@ export default function Home() {
   );
 
   return (
-    <div className="space-y-6">
-      {/* Hero */}
-      <section className="relative overflow-hidden rounded-3xl bg-slate-900 text-white" aria-labelledby="hero">
-        <div className="hero-grid absolute inset-0 bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800" aria-hidden />
-        <div
-          className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-teal-400/30 blur-3xl"
-          aria-hidden
-        />
-        <div className="absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-fuchsia-400/20 blur-3xl" aria-hidden />
-        <div className="relative space-y-5 p-6 sm:p-10">
-          <p className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-bold backdrop-blur">
-            🎓 Made for campus life
+    <div className="space-y-8">
+      {/* University masthead */}
+      <section className="relative overflow-hidden rounded-2xl bg-[#0e2a47] text-white" aria-labelledby="hero">
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#c19a2e] via-[#e8cf7a] to-[#c19a2e]" aria-hidden />
+        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-[#c19a2e] via-[#e8cf7a] to-[#c19a2e]" aria-hidden />
+        <div className="relative space-y-5 p-6 text-center sm:p-10">
+          <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#c19a2e]/60 px-4 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-[#e8cf7a]">
+            Office of Student Affairs · Registry
           </p>
-          <h1 id="hero" className="max-w-2xl text-3xl font-black leading-tight tracking-tight sm:text-5xl">
-            Lost it? Found it? <span className="text-teal-300">Boomerang</span> brings it back.
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-b from-[#e8cf7a] to-[#c19a2e] font-display text-3xl font-black text-[#0e2a47] shadow-lg" aria-hidden>
+            B
+          </div>
+          <h1 id="hero" className="mx-auto max-w-2xl font-display text-3xl font-bold leading-tight sm:text-5xl">
+            Campus Lost &amp; Found Registry
           </h1>
-          <p className="max-w-xl text-sm leading-relaxed text-indigo-100 sm:text-base">
-            Post a lost or found item in seconds, prove ownership with a claim, and get pinged the moment a match
-            appears. {user ? `Welcome back, ${user.name.split(" ")[0]}!` : "Join with your campus email to get started."}
+          <p className="mx-auto h-px w-24 bg-[#c19a2e]" aria-hidden />
+          <p className="mx-auto max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
+            The official record of articles lost and found upon the campus. File an entry, prove ownership
+            through a claim, and collect your belongings from the poster or the Security Office.
+            {user ? (
+              <span className="mt-1 block font-semibold text-[#e8cf7a]">Welcome back, {user.name}.</span>
+            ) : (
+              <span className="mt-1 block">Members of the university may join with a campus email.</span>
+            )}
           </p>
 
-          <form
-            role="search"
-            aria-label="Search items"
-            className="flex max-w-2xl flex-col gap-2 rounded-2xl bg-white p-2 shadow-2xl sm:flex-row"
-            onSubmit={(e) => {
-              e.preventDefault();
-              search();
-            }}
-          >
-            <label htmlFor="hero-q" className="sr-only">
-              Search items
-            </label>
-            <input
-              id="hero-q"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Try “wallet”, “calculator”, “student id”…"
-              className="flex-1 rounded-xl px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400"
-            />
-            <button type="submit" className="btn-primary whitespace-nowrap" disabled={loading}>
-              {loading ? "Searching…" : "🔎 Search"}
-            </button>
-          </form>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link href="/items/new" className="btn-gold text-sm">
+              ✒ File a registry entry
+            </Link>
+            <Link href="#registry" className="btn-outline-light text-sm">
+              View the notice board ↓
+            </Link>
+          </div>
 
-          <div className="flex flex-wrap gap-2">
-            {TYPE_TABS.map((t) => (
-              <button
-                key={t.value}
-                type="button"
-                onClick={() => {
-                  setType(t.value as "" | "lost" | "found");
-                  search({ type: t.value });
-                }}
-                className={`rounded-full px-4 py-1.5 text-xs font-bold backdrop-blur transition-colors ${
-                  type === t.value ? "bg-white text-slate-900" : "bg-white/15 text-white hover:bg-white/25"
-                }`}
-              >
-                {t.label}
-              </button>
+          <dl className="mx-auto flex max-w-lg justify-center gap-8 border-t border-white/15 pt-4" role="status">
+            <div>
+              <dt className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Open entries</dt>
+              <dd className="font-display text-2xl font-bold text-[#e8cf7a]">{loading ? "…" : stats.open}</dd>
+            </div>
+            <div>
+              <dt className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Under claim</dt>
+              <dd className="font-display text-2xl font-bold text-[#e8cf7a]">{loading ? "…" : stats.claimed}</dd>
+            </div>
+            <div>
+              <dt className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Restored</dt>
+              <dd className="font-display text-2xl font-bold text-[#e8cf7a]">{loading ? "…" : stats.returned}</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      {/* Registry procedure */}
+      <section aria-label="How the registry works" className="grid gap-3 sm:grid-cols-3">
+        {STEPS.map((s) => (
+          <div key={s.n} className="card p-5">
+            <p className="font-display text-3xl font-bold text-[#c19a2e]" aria-hidden>
+              {s.n}
+            </p>
+            <h2 className="mt-1 font-display text-lg font-bold text-[#0e2a47]">{s.title}</h2>
+            <p className="mt-1 text-sm leading-relaxed text-slate-600">{s.text}</p>
+          </div>
+        ))}
+      </section>
+
+      {/* Notice board */}
+      <section id="registry" aria-labelledby="registry-h" className="scroll-mt-24 space-y-4">
+        <div className="flex items-end gap-3 border-b-2 border-[#0e2a47] pb-3">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8a6d1c]">Notice board</p>
+            <h2 id="registry-h" className="font-display text-2xl font-bold text-[#0e2a47] sm:text-3xl">
+              Current entries
+            </h2>
+          </div>
+          <span className="ml-auto text-sm font-semibold text-slate-500" role="status">
+            {total} entr{total === 1 ? "y" : "ies"} on record
+          </span>
+        </div>
+
+        {error ? (
+          <p role="alert" className="rounded-xl border border-red-300 bg-red-50 p-4 text-sm font-medium text-red-900">
+            {error}
+          </p>
+        ) : null}
+
+        {loading ? (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Loading registry entries">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="skeleton h-80" />
             ))}
-            <span className="ml-auto hidden items-center gap-4 text-xs font-semibold text-indigo-100 sm:flex" role="status">
-              <span>🟢 {stats.open} open</span>
-              <span>🔵 {stats.claimed} claimed</span>
-              <span>✅ {stats.returned} returned</span>
-            </span>
           </div>
-        </div>
-      </section>
-
-      {/* Category rail */}
-      <section aria-label="Browse by category" className="flex gap-2 overflow-x-auto pb-1">
-        <button
-          type="button"
-          onClick={() => {
-            setCategory("");
-            search({ category: "" });
-          }}
-          className={`shrink-0 rounded-2xl border px-4 py-2.5 text-sm font-bold ${!category ? "chip-active border-slate-900" : "border-slate-200 bg-white hover:border-indigo-300"}`}
-        >
-          ✨ All
-        </button>
-        {CATEGORIES.map((c) => {
-          const meta = CATEGORY_META[c]!;
-          const active = category === c;
-          return (
-            <button
-              key={c}
-              type="button"
-              onClick={() => {
-                const next = active ? "" : c;
-                setCategory(next);
-                search({ category: next });
-              }}
-              className={`shrink-0 rounded-2xl border px-4 py-2.5 text-sm font-bold ${active ? "chip-active border-slate-900" : "border-slate-200 bg-white hover:border-indigo-300"}`}
-            >
-              {meta.icon} {meta.label}
-            </button>
-          );
-        })}
-      </section>
-
-      {/* Location filter */}
-      <div className="card flex flex-col gap-3 p-4 sm:flex-row sm:items-end">
-        <div className="flex-1">
-          <label htmlFor="loc" className="label">
-            📍 Location
-          </label>
-          <input
-            id="loc"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="Library, Block A, shuttle…"
-            className="input"
-          />
-        </div>
-        <div className="flex gap-2">
-          <button type="button" onClick={() => search()} className="btn-primary text-sm" disabled={loading}>
-            Apply
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setQuery("");
-              setType("");
-              setCategory("");
-              setLocation("");
-              search({ query: "", type: "", category: "", location: "" });
-            }}
-            className="btn-ghost text-sm"
-          >
-            Reset
-          </button>
-          <button type="button" onClick={() => setShowFilters((v) => !v)} className="btn-ghost text-sm sm:hidden">
-            {showFilters ? "Hide" : "Filters"}
-          </button>
-        </div>
-        <span className="text-sm font-semibold text-slate-400 sm:ml-auto" role="status">
-          {total} result{total === 1 ? "" : "s"}
-        </span>
-      </div>
-
-      {error ? (
-        <p role="alert" className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm font-medium text-rose-900">
-          {error}
-        </p>
-      ) : null}
-
-      {loading ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Loading items">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="skeleton h-80" />
-          ))}
-        </div>
-      ) : items.length === 0 ? (
-        <div className="card flex flex-col items-center gap-3 p-10 text-center">
-          <p className="text-5xl" aria-hidden>
-            🪃
-          </p>
-          <h2 className="text-lg font-extrabold">Nothing found — yet</h2>
-          <p className="max-w-sm text-sm text-slate-500">
-            No items match those filters. Be the first to report one, or save a keyword alert and we&apos;ll ping you
-            when it shows up.
-          </p>
-          <div className="flex gap-2">
-            <Link href="/items/new" className="btn-primary text-sm">
-              Report an item
-            </Link>
-            <Link href="/keywords" className="btn-ghost text-sm">
-              Set an alert
-            </Link>
+        ) : items.length === 0 ? (
+          <div className="card flex flex-col items-center gap-3 p-10 text-center">
+            <p className="font-display text-5xl text-[#c19a2e]" aria-hidden>
+              ❦
+            </p>
+            <h3 className="font-display text-xl font-bold text-[#0e2a47]">The board is clear</h3>
+            <p className="max-w-sm text-sm text-slate-600">
+              No entries are presently on record. Should you lose or find an article, file an entry and
+              it shall be posted here.
+            </p>
+            <div className="flex gap-2">
+              <Link href="/items/new" className="btn-primary text-sm">
+                File an entry
+              </Link>
+              <Link href="/keywords" className="btn-ghost text-sm">
+                Request notification
+              </Link>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((it) => (
-            <ItemCard key={it.id} item={it} />
-          ))}
-        </div>
-      )}
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {items.map((it) => (
+              <ItemCard key={it.id} item={it} />
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 }

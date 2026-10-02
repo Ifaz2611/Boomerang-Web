@@ -46,7 +46,7 @@ export default function DashboardPage() {
     <div className="mx-auto max-w-4xl space-y-5">
       <div className="flex flex-wrap items-end gap-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">Dashboard</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-[#8a6d1c]">Dashboard</p>
           <h1 className="text-3xl font-black tracking-tight">My posts</h1>
         </div>
         <Link href="/items/new" className="btn-primary ml-auto text-sm">
@@ -94,11 +94,11 @@ export default function DashboardPage() {
         <ul className="space-y-2">
           {mine.map((m) => (
             <li key={m.id} className="card flex items-center gap-3 p-4">
-              <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-xl ${m.type === "lost" ? "bg-rose-100" : "bg-teal-100"}`} aria-hidden>
+              <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-xl ${m.type === "lost" ? "bg-[#f5e3e3]" : "bg-[#e3efe6]"}`} aria-hidden>
                 {m.type === "lost" ? "🔍" : "✋"}
               </span>
               <div className="min-w-0 flex-1">
-                <Link href={`/items/${m.id}`} className="truncate font-extrabold hover:text-indigo-700">
+                <Link href={`/items/${m.id}`} className="truncate font-extrabold hover:text-[#1d4a7a]">
                   {m.title}
                 </Link>
                 <p className="truncate text-xs text-slate-500">
