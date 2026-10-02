@@ -1,4 +1,5 @@
 import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
+import { getAnalytics, type Analytics } from "firebase/analytics";
 import { getAuth, type Auth } from "firebase/auth";
 import { getFirestore, type Firestore } from "firebase/firestore";
 import { getStorage, type FirebaseStorage } from "firebase/storage";
@@ -20,6 +21,7 @@ let app: FirebaseApp | null = null;
 let auth: Auth | null = null;
 let db: Firestore | null = null;
 let storage: FirebaseStorage | null = null;
+let analytics: Analytics | null = null;
 
 if (isFirebaseConfigured) {
   app = getApps().length ? getApps()[0]! : initializeApp(config);
@@ -30,6 +32,14 @@ if (isFirebaseConfigured) {
   } catch {
     storage = null;
   }
+  // Analytics is browser-only and optional — never let it break the app.
+  if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID) {
+    try {
+      analytics = getAnalytics(app);
+    } catch {
+      analytics = null;
+    }
+  }
 }
 
-export { app, auth, db, storage };
+export { app, auth, db, storage, analytics };
