@@ -11,7 +11,6 @@ import {
   query,
   serverTimestamp,
   setDoc,
-  updateDoc,
   where,
 } from "firebase/firestore";
 import type { QueryConstraint } from "firebase/firestore";
@@ -21,7 +20,6 @@ import type {
   AppNotification,
   AppUser,
   Claim,
-  ClaimStatus,
   Item,
   ItemFilters,
   ItemStatus,
@@ -30,9 +28,13 @@ import type {
 } from "./types";
 
 const LS_ITEMS = "boomerang_items_v2";
+// Reserved for Tasks 3–4 (currently stubbed below) — do not delete.
 const LS_CLAIMS = "boomerang_claims_v2";
 const LS_KEYWORDS = "boomerang_keywords_v2";
 const LS_NOTIFS = "boomerang_notifs_v2";
+void LS_CLAIMS;
+void LS_KEYWORDS;
+void LS_NOTIFS;
 
 function readLS<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
@@ -184,177 +186,85 @@ export async function createItem(input: NewItemInput, owner: AppUser): Promise<I
 }
 
 export async function submitClaim(
-  itemId: string,
-  proof: string,
-  contactNote: string | undefined,
-  claimant: AppUser,
+  _itemId: string,
+  _proof: string,
+  _contactNote: string | undefined,
+  _claimant: AppUser,
 ): Promise<void> {
-  const now = new Date().toISOString();
-  if (!isFirebaseConfigured || !db) {
-    ensureSeeded();
-    const claims = readLS<Claim[]>(LS_CLAIMS, []);
-    claims.push({
-      id: `claim-${Date.now()}`,
-      itemId,
-      claimantId: claimant.uid,
-      claimantName: claimant.name,
-      proof,
-      contactNote,
-      status: "pending",
-      createdAt: now,
-    });
-    writeLS(LS_CLAIMS, claims);
-    const all = readLS<Item[]>(LS_ITEMS, DEMO_ITEMS);
-    writeLS(
-      LS_ITEMS,
-      all.map((i) => (i.id === itemId ? { ...i, status: "claimed" as ItemStatus, updatedAt: now } : i)),
-    );
-    return;
-  }
-  await addDoc(collection(db, "items", itemId, "claims"), {
-    claimantId: claimant.uid,
-    claimantName: claimant.name,
-    proof,
-    contactNote: contactNote ?? "",
-    status: "pending",
-    createdAt: serverTimestamp(),
-  });
-  await updateDoc(doc(db, "items", itemId), { status: "claimed", updatedAt: serverTimestamp() });
+  // TODO (Tausiful Islam — todo.md Task 3): implement claim submission.
+  // Expected behavior: validate proof (min 10 chars), require login, add
+  // `items/{id}/claims/*` with status "pending" + set item → "claimed".
+  // Support demo mode (localStorage LS_CLAIMS/LS_ITEMS) + Firestore path.
+  // Delete this throw and restore the previous implementation as reference.
+  void _itemId;
+  void _proof;
+  void _contactNote;
+  void _claimant;
+  throw new Error("TODO (Tausiful Islam): submitClaim() is not implemented yet — see todo.md Task 3.");
 }
 
-export async function decideClaim(itemId: string, claimId: string, decision: "accepted" | "rejected"): Promise<void> {
-  const status: ClaimStatus = decision === "accepted" ? "accepted" : "rejected";
-  if (!isFirebaseConfigured || !db) {
-    ensureSeeded();
-    const claims = readLS<Claim[]>(LS_CLAIMS, []);
-    const next = claims.map((c) => (c.id === claimId ? { ...c, status } : c.id && c.itemId === itemId && decision === "accepted" ? { ...c, status: "rejected" as ClaimStatus } : c));
-    writeLS(LS_CLAIMS, decision === "accepted" ? next.map((c) => (c.itemId === itemId && c.id !== claimId && c.status === "pending" ? { ...c, status: "rejected" as ClaimStatus } : c)) : next);
-    return;
-  }
-  await updateDoc(doc(db, "items", itemId, "claims", claimId), { status });
-  if (decision === "accepted") {
-    const csnap = await getDocs(collection(db, "items", itemId, "claims"));
-    await Promise.all(
-      csnap.docs
-        .filter((d) => d.id !== claimId && (d.data().status === "pending"))
-        .map((d) => updateDoc(d.ref, { status: "rejected" })),
-    );
-  }
+export async function decideClaim(_itemId: string, _claimId: string, _decision: "accepted" | "rejected"): Promise<void> {
+  // TODO (Tausiful Islam — todo.md Task 3): implement claim verification.
+  // Accept → claim "accepted", reject competing pendings; reject → claim "rejected".
+  // Demo mode (localStorage) + Firestore paths both required.
+  void _itemId;
+  void _claimId;
+  void _decision;
+  throw new Error("TODO (Tausiful Islam): decideClaim() is not implemented yet — see todo.md Task 3.");
 }
 
-export async function setItemStatus(itemId: string, status: ItemStatus): Promise<void> {
-  if (!isFirebaseConfigured || !db) {
-    ensureSeeded();
-    const all = readLS<Item[]>(LS_ITEMS, DEMO_ITEMS);
-    writeLS(
-      LS_ITEMS,
-      all.map((i) => (i.id === itemId ? { ...i, status, updatedAt: new Date().toISOString() } : i)),
-    );
-    return;
-  }
-  await updateDoc(doc(db, "items", itemId), { status, updatedAt: serverTimestamp() });
+export async function setItemStatus(_itemId: string, _status: ItemStatus): Promise<void> {
+  // TODO (Mirza Rafi — todo.md Task 5; used by Tausiful's "Mark as returned" too):
+  // implement status transitions (pending→published→claimed→resolved, rejected branches).
+  // Demo mode (localStorage LS_ITEMS) + Firestore updateDoc path both required.
+  void _itemId;
+  void _status;
+  throw new Error("TODO (Mirza Rafi): setItemStatus() is not implemented yet — see todo.md Task 5.");
 }
 
 /* ------------------------------ keywords --------------------------------- */
+// TODO (Mirza Rafi — todo.md Task 4): implement keyword alerts + notifications.
+// All functions below currently throw TODO. Expected behavior:
+// - keywords: per-user CRUD on `keywords` collection (demo: LS_KEYWORDS), lowercase dedupe.
+// - notifications: fan-out on createItem + lazy match on list (demo: LS_NOTIFS),
+//   `notifications` collection in Firestore, unread counts, markAllRead.
 
-export async function listKeywords(userId: string): Promise<SavedKeyword[]> {
-  if (!isFirebaseConfigured || !db) {
-    ensureSeeded();
-    return readLS<SavedKeyword[]>(LS_KEYWORDS, []).filter((k) => k.userId === userId);
-  }
-  const snap = await getDocs(query(collection(db, "keywords"), where("userId", "==", userId)));
-  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<SavedKeyword, "id">) }));
+export async function listKeywords(_userId: string): Promise<SavedKeyword[]> {
+  void _userId;
+  throw new Error("TODO (Mirza Rafi): listKeywords() is not implemented yet — see todo.md Task 4.");
 }
 
-export async function addKeyword(userId: string, keyword: string): Promise<void> {
-  const clean = keyword.trim().toLowerCase();
-  if (!clean) return;
-  if (!isFirebaseConfigured || !db) {
-    ensureSeeded();
-    const all = readLS<SavedKeyword[]>(LS_KEYWORDS, []);
-    if (all.some((k) => k.userId === userId && k.keyword === clean)) return;
-    writeLS(LS_KEYWORDS, [...all, { id: `kw-${Date.now()}`, userId, keyword: clean, createdAt: new Date().toISOString() }]);
-    return;
-  }
-  await addDoc(collection(db, "keywords"), { userId, keyword: clean, createdAt: serverTimestamp() });
+export async function addKeyword(_userId: string, _keyword: string): Promise<void> {
+  void _userId;
+  void _keyword;
+  throw new Error("TODO (Mirza Rafi): addKeyword() is not implemented yet — see todo.md Task 4.");
 }
 
-export async function removeKeyword(id: string): Promise<void> {
-  if (!isFirebaseConfigured || !db) {
-    ensureSeeded();
-    writeLS(LS_KEYWORDS, readLS<SavedKeyword[]>(LS_KEYWORDS, []).filter((k) => k.id !== id));
-    return;
-  }
-  const { deleteDoc } = await import("firebase/firestore");
-  await deleteDoc(doc(db, "keywords", id));
+export async function removeKeyword(_id: string): Promise<void> {
+  void _id;
+  throw new Error("TODO (Mirza Rafi): removeKeyword() is not implemented yet — see todo.md Task 4.");
 }
 
 /* ---------------------------- notifications ------------------------------- */
 
-function fanOutMockNotifications(item: Item) {
-  const keywords = readLS<SavedKeyword[]>(LS_KEYWORDS, []);
-  const notifs = readLS<AppNotification[]>(LS_NOTIFS, []);
-  const hay = `${item.title} ${item.description} ${item.tags.join(" ")}`.toLowerCase();
-  const fresh = keywords
-    .filter((k) => k.userId !== item.ownerId && hay.includes(k.keyword.toLowerCase()))
-    .filter((k) => !notifs.some((n) => n.userId === k.userId && n.itemId === item.id && n.keyword === k.keyword))
-    .map((k) => ({
-      id: `notif-${Date.now()}-${k.id}`,
-      userId: k.userId,
-      itemId: item.id,
-      keyword: k.keyword,
-      message: `Match for “${k.keyword}”: ${item.title}`,
-      read: false,
-      createdAt: new Date().toISOString(),
-    }));
-  if (fresh.length) writeLS(LS_NOTIFS, [...fresh, ...notifs]);
+function fanOutMockNotifications(_item: Item) {
+  // TODO (Mirza Rafi — todo.md Task 4): re-implement demo fan-out that creates
+  // LS_NOTIFS entries for keywords matching the new item. Currently a no-op so
+  // reporting items keeps working before Task 4 is done.
+  void _item;
+  return;
 }
 
-export async function listNotifications(userId: string): Promise<{ notifications: AppNotification[]; unread: number }> {
-  if (!isFirebaseConfigured || !db) {
-    ensureSeeded();
-    // Lazy match: scan published items against my keywords so demo alerts appear.
-    const items = readLS<Item[]>(LS_ITEMS, DEMO_ITEMS).filter((i) => PUBLIC_STATUSES.includes(i.status));
-    const keywords = readLS<SavedKeyword[]>(LS_KEYWORDS, []).filter((k) => k.userId === userId);
-    let notifs = readLS<AppNotification[]>(LS_NOTIFS, []);
-    const fresh = keywords.flatMap((k) => {
-      const hay = (kw: string) => kw.toLowerCase().includes(k.keyword.toLowerCase());
-      return items
-        .filter((i) => hay(`${i.title} ${i.description} ${i.tags.join(" ")}`) && i.ownerId !== userId)
-        .filter((i) => !notifs.some((n) => n.userId === userId && n.itemId === i.id && n.keyword === k.keyword))
-        .map((i) => ({
-          id: `notif-${Date.now()}-${i.id}-${k.id}`,
-          userId,
-          itemId: i.id,
-          keyword: k.keyword,
-          message: `Match for “${k.keyword}”: ${i.title}`,
-          read: false,
-          createdAt: new Date().toISOString(),
-        }));
-    });
-    if (fresh.length) {
-      notifs = [...fresh, ...notifs];
-      writeLS(LS_NOTIFS, notifs);
-    }
-    const mine = notifs.filter((n) => n.userId === userId).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-    return { notifications: mine, unread: mine.filter((n) => !n.read).length };
-  }
-  const snap = await getDocs(query(collection(db, "notifications"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(50)));
-  const notifications = snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<AppNotification, "id">) }));
-  return { notifications, unread: notifications.filter((n) => !n.read).length };
+export async function listNotifications(_userId: string): Promise<{ notifications: AppNotification[]; unread: number }> {
+  // NOTE: Navbar calls this for its unread badge and tolerates the TODO throw
+  // (it falls back to 0). Implement per todo.md Task 4.
+  void _userId;
+  throw new Error("TODO (Mirza Rafi): listNotifications() is not implemented yet — see todo.md Task 4.");
 }
 
-export async function markAllRead(userId: string): Promise<void> {
-  if (!isFirebaseConfigured || !db) {
-    ensureSeeded();
-    writeLS(
-      LS_NOTIFS,
-      readLS<AppNotification[]>(LS_NOTIFS, []).map((n) => (n.userId === userId ? { ...n, read: true } : n)),
-    );
-    return;
-  }
-  const snap = await getDocs(query(collection(db, "notifications"), where("userId", "==", userId), where("read", "==", false)));
-  await Promise.all(snap.docs.map((d) => updateDoc(d.ref, { read: true })));
+export async function markAllRead(_userId: string): Promise<void> {
+  void _userId;
+  throw new Error("TODO (Mirza Rafi): markAllRead() is not implemented yet — see todo.md Task 4.");
 }
 
 /** Ensure a Firestore user profile doc exists (called after sign-in/up). */

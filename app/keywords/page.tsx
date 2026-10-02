@@ -1,59 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth-context";
-import { addKeyword, listKeywords, listNotifications, markAllRead, removeKeyword } from "@/lib/data";
-import type { AppNotification, SavedKeyword } from "@/lib/types";
+
+// TODO (Mirza Rafi): Keyword alerts + notifications — see todo.md Task 4.
+// This page is intentionally stubbed. Re-implement using:
+//   listKeywords / addKeyword / removeKeyword /
+//   listNotifications / markAllRead from lib/data.ts
+// (those functions currently throw TODO — implement them too).
 
 const SUGGESTIONS = ["wallet", "calculator", "airpods", "student id", "keys", "backpack"];
 
 export default function KeywordsPage() {
   const { user, loading } = useAuth();
-  const [keywords, setKeywords] = useState<SavedKeyword[]>([]);
-  const [notifs, setNotifs] = useState<AppNotification[]>([]);
-  const [unread, setUnread] = useState(0);
-  const [input, setInput] = useState("");
-  const [msg, setMsg] = useState("");
-  const [busy, setBusy] = useState(true);
-
-  async function load() {
-    if (!user) {
-      setBusy(false);
-      return;
-    }
-    setBusy(true);
-    try {
-      const k = await listKeywords(user.uid);
-      setKeywords(k);
-      const n = await listNotifications(user.uid);
-      setNotifs(n.notifications);
-      setUnread(n.unread);
-    } catch (e) {
-      setMsg(e instanceof Error ? e.message : "Could not load alerts.");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  useEffect(() => {
-    if (!loading) load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, loading]);
-
-  async function add(e: React.FormEvent) {
-    e.preventDefault();
-    if (!user || !input.trim()) return;
-    setMsg("");
-    try {
-      await addKeyword(user.uid, input);
-      setInput("");
-      setMsg("🔔 Keyword saved — we'll flag new matches here.");
-      await load();
-    } catch (err) {
-      setMsg(err instanceof Error ? err.message : "Failed to save.");
-    }
-  }
 
   if (!loading && !user) {
     return (
@@ -72,120 +31,56 @@ export default function KeywordsPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-5">
-      <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-[#8a6d1c]">Alerts</p>
-        <h1 className="text-3xl font-black tracking-tight">Never miss a match</h1>
-        <p className="mt-1 text-sm text-slate-500">Save keywords — new posts matching them show up below.</p>
+      <div className="flex flex-wrap items-center gap-2">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-widest text-[#8a6d1c]">Alerts</p>
+          <h1 className="text-3xl font-black tracking-tight">Never miss a match</h1>
+          <p className="mt-1 text-sm text-slate-500">Save keywords — new posts matching them show up below.</p>
+        </div>
+        <span className="ml-auto rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-800">
+          TODO · assigned: Mirza Rafi
+        </span>
       </div>
 
-      {msg ? (
-        <p role="status" className="card p-3 text-sm font-medium">
-          {msg}
+      <div className="card space-y-3 border-dashed p-5" role="status">
+        <h2 className="font-extrabold">🚧 Keyword alerts are under construction</h2>
+        <p className="text-sm leading-relaxed text-slate-600">
+          This feature was rolled back so it can be built as a team contribution. If you are{" "}
+          <strong>Mirza Rafi</strong>, implement it per <code>todo.md → Task 4</code>: keyword CRUD,
+          suggestion chips, match list with unread badge, and “mark all read”. Data helpers in{" "}
+          <code>lib/data.ts</code> currently throw <code>TODO</code> — implement them first, then wire
+          this page.
         </p>
-      ) : null}
+      </div>
 
-      <form onSubmit={add} className="card flex gap-2 p-3" aria-label="Save keyword">
-        <label htmlFor="kw" className="sr-only">
+      {/* Disabled placeholder form — replaced by real implementation in Task 4. */}
+      <form onSubmit={(e) => e.preventDefault()} className="card flex gap-2 p-3 opacity-60" aria-label="Save keyword (placeholder)">
+        <label htmlFor="kw-todo" className="sr-only">
           Keyword
         </label>
-        <input
-          id="kw"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          minLength={2}
-          placeholder="e.g. wallet, airpods, calculator…"
-          className="input"
-        />
-        <button className="btn-primary shrink-0 text-sm">＋ Save</button>
+        <input id="kw-todo" disabled placeholder="e.g. wallet, airpods, calculator… (coming soon)" className="input" />
+        <button disabled className="btn-primary shrink-0 text-sm opacity-60" title="Not implemented yet">
+          ＋ Save (soon)
+        </button>
       </form>
 
-      <div className="flex flex-wrap gap-2" aria-label="Suggestions">
+      <div className="flex flex-wrap gap-2 opacity-60" aria-label="Suggestions (placeholder)">
         <span className="py-1.5 text-xs font-bold text-slate-400">Try:</span>
         {SUGGESTIONS.map((s) => (
-          <button
-            key={s}
-            type="button"
-            onClick={() => setInput(s)}
-            className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-600 hover:border-[#c19a2e]"
-          >
+          <span key={s} className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-400">
             {s}
-          </button>
+          </span>
         ))}
       </div>
 
-      <div className="card p-5">
-        <h2 className="font-extrabold">My keywords ({keywords.length})</h2>
-        {busy ? (
-          <div className="skeleton mt-3 h-10" />
-        ) : keywords.length === 0 ? (
-          <p className="mt-2 text-sm text-slate-500">No keywords yet — save your first one above.</p>
-        ) : (
-          <ul className="mt-3 flex flex-wrap gap-2">
-            {keywords.map((k) => (
-              <li
-                key={k.id}
-                className="flex items-center gap-2 rounded-full bg-[#f3ecd9] py-1.5 pl-3 pr-2 text-sm font-bold text-[#0e2a47]"
-              >
-                🔎 {k.keyword}
-                <button
-                  onClick={async () => {
-                    await removeKeyword(k.id);
-                    await load();
-                  }}
-                  aria-label={`Remove ${k.keyword}`}
-                  className="rounded-full bg-white px-2 text-slate-500 hover:text-rose-600"
-                >
-                  ×
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+      <div className="card p-5 opacity-70">
+        <h2 className="font-extrabold">My keywords (0)</h2>
+        <p className="mt-2 text-sm text-slate-500">No keywords yet — saving is disabled until Task 4 is done.</p>
       </div>
 
-      <section aria-labelledby="n-h" className="space-y-3">
-        <div className="flex items-center gap-2">
-          <h2 id="n-h" className="font-extrabold">
-            Matches {unread > 0 ? <span className="rounded-full bg-rose-500 px-2 py-0.5 text-xs text-white">{unread} new</span> : null}
-          </h2>
-          <button
-            onClick={async () => {
-              if (user) {
-                await markAllRead(user.uid);
-                await load();
-              }
-            }}
-            className="btn-ghost ml-auto !py-1.5 text-xs"
-          >
-            Mark all read
-          </button>
-        </div>
-        {busy ? (
-          <div className="space-y-2">
-            <div className="skeleton h-16" />
-            <div className="skeleton h-16" />
-          </div>
-        ) : notifs.length === 0 ? (
-          <div className="card p-8 text-center">
-            <p className="text-3xl" aria-hidden>
-              📭
-            </p>
-            <p className="mt-2 text-sm text-slate-500">No matches yet. New posts are checked against your keywords automatically.</p>
-          </div>
-        ) : (
-          <ul className="space-y-2">
-            {notifs.map((n) => (
-              <li key={n.id} className={`card p-4 text-sm ${n.read ? "opacity-70" : "border-[#c19a2e]"}`}>
-                <Link href={`/items/${n.itemId}`} className="font-bold hover:text-[#1d4a7a] hover:underline">
-                  {n.message}
-                </Link>
-                <p className="mt-0.5 text-xs text-slate-400">
-                  {new Date(n.createdAt).toLocaleString()} · keyword “{n.keyword}”
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
+      <section aria-label="Matches (placeholder)" className="card space-y-2 p-5 opacity-70">
+        <h2 className="font-extrabold">Matches</h2>
+        <p className="text-sm text-slate-500">No matches yet. New posts will be checked against keywords automatically once implemented.</p>
       </section>
     </div>
   );

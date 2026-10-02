@@ -113,6 +113,37 @@ export default function Home() {
         ))}
       </section>
 
+      {/* TODO (Kazi Abtahi): Search, filters & sorting — see todo.md Task 2.
+          Build a filter bar (query, type lost/found, category, location,
+          date range, tags + sort) that calls fetchItems(filters) and updates
+          the notice board below. Keep it client-side + Firestore compatible. */}
+      <section aria-label="Search and filters (to be implemented)" className="card space-y-3 border-dashed p-5">
+        <div className="flex flex-wrap items-center gap-2">
+          <h2 className="font-display text-lg font-bold text-[#0e2a47]">🔍 Search &amp; filters</h2>
+          <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-800">
+            TODO · assigned: Kazi Abtahi
+          </span>
+        </div>
+        <p className="text-sm text-slate-500">
+          Search and filtering are not implemented yet. This board currently shows all public entries
+          unfiltered. The assignee should add a search box + filters here (see <code>todo.md</code>).
+        </p>
+        <div className="flex flex-wrap gap-2 opacity-60" aria-hidden>
+          <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-400">
+            Search items…
+          </span>
+          <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-400">
+            Type: lost / found
+          </span>
+          <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-400">
+            Category
+          </span>
+          <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-400">
+            Location + dates
+          </span>
+        </div>
+      </section>
+
       {/* Notice board */}
       <section id="registry" aria-labelledby="registry-h" className="scroll-mt-24 space-y-4">
         <div className="flex items-end gap-3 border-b-2 border-[#0e2a47] pb-3">

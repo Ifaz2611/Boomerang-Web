@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import StatusBadge from "../components/StatusBadge";
 import { useAuth } from "@/lib/auth-context";
-import { fetchItems, setItemStatus } from "@/lib/data";
+import { fetchItems } from "@/lib/data";
 import type { Item, ItemStatus } from "@/lib/types";
 
 const TABS: ItemStatus[] = ["pending", "published", "claimed", "resolved", "rejected"];
@@ -41,15 +41,12 @@ export default function AdminPage() {
     else if (!loading) setBusy(false);
   }, [tab, user, loading]);
 
-  async function update(id: string, status: ItemStatus) {
-    setMsg("");
-    try {
-      await setItemStatus(id, status);
-      setMsg(`✅ Item → ${status}.`);
-      await load(tab);
-    } catch (e) {
-      setMsg(e instanceof Error ? e.message : "Update failed.");
-    }
+  async function update(_id: string, _status: ItemStatus) {
+    // TODO (Mirza Rafi): wire moderation to setItemStatus() + reload — see todo.md Task 5.
+    // setItemStatus() in lib/data.ts currently throws TODO; implement it first.
+    void _id;
+    void _status;
+    setMsg("🚧 Moderation actions are not implemented yet — assigned to Mirza Rafi (see todo.md Task 5).");
   }
 
   if (!loading && (!user || user.role !== "admin")) {
@@ -82,6 +79,11 @@ export default function AdminPage() {
         <p className="text-xs font-bold uppercase tracking-widest text-[#8a6d1c]">Moderation</p>
         <h1 className="text-3xl font-black tracking-tight">🛡 Security office</h1>
         <p className="mt-1 text-sm text-slate-500">Review new reports, publish them, and resolve handovers.</p>
+        <p role="note" className="mt-2 rounded-xl border border-dashed border-amber-300 bg-amber-50 p-3 text-sm font-medium text-amber-900">
+          🚧 TODO · assigned: Mirza Rafi — moderation actions (Publish / Reject / Resolve via{" "}
+          <code>setItemStatus()</code>) are stubbed. Queue listing works; actions show this notice until{" "}
+          <code>todo.md</code> Task 5 is done.
+        </p>
       </div>
 
       <div role="tablist" aria-label="Moderation queues" className="flex flex-wrap gap-2">
@@ -131,15 +133,15 @@ export default function AdminPage() {
                 </p>
               </div>
               <StatusBadge status={it.status} />
-              <span className="flex gap-1.5">
-                <button onClick={() => update(it.id, "published")} className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white">
-                  Publish
+              <span className="flex gap-1.5 opacity-70" title="TODO — assigned to Mirza Rafi">
+                <button onClick={() => update(it.id, "published")} className="rounded-lg bg-emerald-600/60 px-3 py-1.5 text-xs font-bold text-white">
+                  Publish (soon)
                 </button>
-                <button onClick={() => update(it.id, "rejected")} className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-bold">
-                  Reject
+                <button onClick={() => update(it.id, "rejected")} className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-bold text-slate-400">
+                  Reject (soon)
                 </button>
-                <button onClick={() => update(it.id, "resolved")} className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-bold">
-                  Resolve
+                <button onClick={() => update(it.id, "resolved")} className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-bold text-slate-400">
+                  Resolve (soon)
                 </button>
               </span>
             </li>

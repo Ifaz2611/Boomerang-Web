@@ -4,8 +4,8 @@ import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import StatusBadge from "../../components/StatusBadge";
 import { useAuth } from "@/lib/auth-context";
-import { decideClaim, getItemDetail, setItemStatus, submitClaim } from "@/lib/data";
-import { CATEGORY_META, type Claim, type Item, type ItemStatus } from "@/lib/types";
+import { getItemDetail } from "@/lib/data";
+import { CATEGORY_META, type Claim, type Item } from "@/lib/types";
 
 export default function ItemPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -13,12 +13,15 @@ export default function ItemPage({ params }: { params: Promise<{ id: string }> }
   const [item, setItem] = useState<Item | null>(null);
   const [claims, setClaims] = useState<Claim[]>([]);
   const [error, setError] = useState("");
-  const [proof, setProof] = useState("");
-  const [contactNote, setContactNote] = useState("");
   const [msg, setMsg] = useState("");
-  const [busy, setBusy] = useState(false);
 
+  // TODO (Tausiful Islam): Claim + verify workflow — see todo.md Task 3.
+  // Re-implement: claim form state (proof, contactNote), submitClaim(),
+  // verify list with accept/reject (decideClaim()), and "Mark as returned"
+  // (setItemStatus "resolved"). Data stubs live in lib/data.ts.
   const isOwnerOrAdmin = !!user && !!item && (user.uid === item.ownerId || user.role === "admin");
+  void claims;
+  void isOwnerOrAdmin;
   const meta = item ? (CATEGORY_META[item.category] ?? CATEGORY_META.other!) : null;
 
   async function load() {
@@ -43,49 +46,22 @@ export default function ItemPage({ params }: { params: Promise<{ id: string }> }
 
   async function onClaim(e: React.FormEvent) {
     e.preventDefault();
-    setMsg("");
-    if (!user) {
-      setMsg("Please log in to submit a claim.");
-      return;
-    }
-    if (proof.trim().length < 10) {
-      setMsg("Describe your proof with a bit more detail (min 10 characters).");
-      return;
-    }
-    setBusy(true);
-    try {
-      await submitClaim(id, proof.trim(), contactNote.trim() || undefined, user);
-      setMsg("✅ Claim sent! The poster / security office will verify your proof.");
-      setProof("");
-      setContactNote("");
-      await load();
-    } catch (err) {
-      setMsg(err instanceof Error ? err.message : "Claim failed.");
-    } finally {
-      setBusy(false);
-    }
+    // TODO (Tausiful Islam): wire this form to submitClaim() with validation
+    // (min 10 chars proof, login required) + reload detail. See todo.md Task 3.
+    setMsg("🚧 Claiming is not implemented yet — assigned to Tausiful Islam (see todo.md Task 3).");
   }
 
-  async function onDecide(claimId: string, decision: "accepted" | "rejected") {
-    setMsg("");
-    try {
-      await decideClaim(id, claimId, decision);
-      setMsg(decision === "accepted" ? "🎉 Claim accepted — arrange the handover!" : "Claim rejected.");
-      await load();
-    } catch (err) {
-      setMsg(err instanceof Error ? err.message : "Verification failed.");
-    }
+  async function onDecide(_claimId: string, _decision: "accepted" | "rejected") {
+    // TODO (Tausiful Islam): wire to decideClaim() + reload. See todo.md Task 3.
+    void _claimId;
+    void _decision;
+    setMsg("🚧 Claim verification is not implemented yet — assigned to Tausiful Islam (see todo.md Task 3).");
   }
 
-  async function onStatus(status: ItemStatus) {
-    setMsg("");
-    try {
-      await setItemStatus(id, status);
-      setMsg(status === "resolved" ? "🎉 Marked as returned. Nicely boomeranged!" : `Status → ${status}.`);
-      await load();
-    } catch (err) {
-      setMsg(err instanceof Error ? err.message : "Update failed.");
-    }
+  async function onStatus(_status: string) {
+    // TODO (Tausiful Islam): wire "Mark as returned" to setItemStatus(id, "resolved").
+    void _status;
+    setMsg("🚧 Mark-as-returned is not implemented yet — assigned to Tausiful Islam (see todo.md Task 3).");
   }
 
   if (error)
@@ -169,112 +145,73 @@ export default function ItemPage({ params }: { params: Promise<{ id: string }> }
             <p className="text-xs text-slate-400">
               Privacy: contact details stay hidden until a claim is accepted. Never share full ID numbers publicly.
             </p>
-            {isOwnerOrAdmin && ["published", "claimed"].includes(item.status) ? (
-              <div className="flex flex-wrap gap-2 pt-1">
-                <button onClick={() => onStatus("resolved")} className="btn-primary text-sm">
-                  ✅ Mark as returned
-                </button>
-                {user?.role === "admin" ? (
-                  <button onClick={() => onStatus("rejected")} className="btn-ghost text-sm">
-                    Reject listing
-                  </button>
-                ) : null}
-              </div>
-            ) : null}
+            {/* TODO (Tausiful Islam): "Mark as returned" — owner/admin sets status → resolved.
+                See todo.md Task 3. Intentionally disabled until implemented. */}
+            <div className="flex flex-wrap items-center gap-2 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-3 pt-3">
+              <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-800">
+                TODO · Tausiful Islam
+              </span>
+              <button onClick={() => onStatus("resolved")} className="btn-primary text-sm opacity-60" title="Not implemented yet">
+                ✅ Mark as returned (coming soon)
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Sidebar */}
+        {/* Sidebar — TODO (Tausiful Islam): full claim + verify workflow. See todo.md Task 3. */}
         <div className="space-y-5">
-          <section aria-labelledby="claim-h" className="card space-y-3 p-5">
-            <h2 id="claim-h" className="font-extrabold">
-              🙋 Claim this item
-            </h2>
+          <section aria-labelledby="claim-h" className="card space-y-3 border-dashed p-5">
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 id="claim-h" className="font-extrabold">
+                🙋 Claim this item
+              </h2>
+              <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-800">
+                TODO · Tausiful Islam
+              </span>
+            </div>
             <p className="text-xs leading-relaxed text-slate-500">
-              Describe proof only the owner would know — engraving, contents, sticker details, partial ID…
+              Claiming is not implemented yet. The assignee should add owner-proof + meetup-note
+              fields here and wire them to <code>submitClaim()</code> (see <code>todo.md</code> Task 3).
             </p>
-            <form onSubmit={onClaim} className="space-y-3">
+            <form onSubmit={onClaim} className="space-y-3 opacity-60" aria-label="Claim form (placeholder)">
               <div>
-                <label htmlFor="proof" className="label">
-                  Owner proof
+                <label htmlFor="proof-todo" className="label">
+                  Owner proof (disabled placeholder)
                 </label>
-                <textarea
-                  id="proof"
-                  rows={3}
-                  value={proof}
-                  onChange={(e) => setProof(e.target.value)}
-                  placeholder="e.g. Black bifold, metro card ending 441, photo of my dog inside…"
-                  className="input"
-                />
+                <textarea id="proof-todo" rows={3} disabled placeholder="e.g. Black bifold, metro card ending 441…" className="input" />
               </div>
-              <div>
-                <label htmlFor="contact" className="label">
-                  Meetup note (optional)
-                </label>
-                <input
-                  id="contact"
-                  value={contactNote}
-                  onChange={(e) => setContactNote(e.target.value)}
-                  placeholder="e.g. Library front desk after 4pm"
-                  className="input"
-                />
-              </div>
-              <button disabled={busy} className="btn-primary w-full text-sm">
-                {busy ? "Sending…" : "Submit claim"}
+              <button type="submit" className="btn-primary w-full text-sm">
+                Submit claim (coming soon)
               </button>
             </form>
           </section>
 
-          {isOwnerOrAdmin ? (
-            <section aria-labelledby="verify-h" className="card space-y-3 p-5">
+          <section aria-labelledby="verify-h" className="card space-y-3 border-dashed p-5">
+            <div className="flex flex-wrap items-center gap-2">
               <h2 id="verify-h" className="font-extrabold">
-                🛡 Verify claims ({claims.length})
+                🛡 Verify claims
               </h2>
-              {claims.length === 0 ? (
-                <p className="text-sm text-slate-500">No claims yet — share the listing so the owner can find it.</p>
-              ) : (
-                <ul className="space-y-2">
-                  {claims.map((c) => (
-                    <li key={c.id} className="rounded-xl border border-slate-200 p-3 text-sm">
-                      <p className="flex items-center justify-between">
-                        <strong>{c.claimantName}</strong>
-                        <span
-                          className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${
-                            c.status === "pending"
-                              ? "bg-amber-100 text-amber-800"
-                              : c.status === "accepted"
-                                ? "bg-emerald-100 text-emerald-800"
-                                : "bg-slate-100 text-slate-500"
-                          }`}
-                        >
-                          {c.status}
-                        </span>
-                      </p>
-                      <p className="mt-1 text-xs text-slate-400">{new Date(c.createdAt).toLocaleString()}</p>
-                      <p className="mt-1 whitespace-pre-wrap text-sm">
-                        <strong>Proof:</strong> {c.proof}
-                      </p>
-                      {c.contactNote ? (
-                        <p className="mt-1 text-sm">
-                          <strong>Meetup:</strong> {c.contactNote}
-                        </p>
-                      ) : null}
-                      {c.status === "pending" ? (
-                        <p className="mt-2 flex gap-2">
-                          <button onClick={() => onDecide(c.id, "accepted")} className="flex-1 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white">
-                            Accept
-                          </button>
-                          <button onClick={() => onDecide(c.id, "rejected")} className="flex-1 rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-bold">
-                            Reject
-                          </button>
-                        </p>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
-          ) : null}
+              <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-800">
+                TODO · Tausiful Islam
+              </span>
+            </div>
+            <p className="text-sm text-slate-500">
+              Claim verification (accept / reject via <code>decideClaim()</code>) is not implemented yet.
+              Poster / staff will review claims here once built.
+            </p>
+            <div className="flex gap-2 opacity-60" aria-hidden>
+              <span className="flex-1 rounded-lg bg-emerald-100 px-3 py-1.5 text-center text-xs font-bold text-emerald-800">
+                Accept (soon)
+              </span>
+              <span className="flex-1 rounded-lg border border-slate-300 px-3 py-1.5 text-center text-xs font-bold text-slate-500">
+                Reject (soon)
+              </span>
+            </div>
+            {/* Keep handlers referenced so future wiring is obvious. */}
+            <span className="hidden">
+              <button onClick={() => onDecide("placeholder", "accepted")}>accept</button>
+            </span>
+          </section>
 
           {msg ? (
             <p role="status" className="card p-4 text-sm font-medium">
