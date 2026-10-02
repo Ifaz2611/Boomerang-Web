@@ -84,7 +84,7 @@ export default function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
-              placeholder="you@campus.edu"
+              placeholder="you@iub.edu.bd"
               className="input"
             />
           </div>
