@@ -35,16 +35,16 @@ export default function Navbar() {
   const visible = LINKS.filter((l) => !l.adminOnly || user?.role === "admin");
 
   return (
-    <header className="sticky top-0 z-30 bg-[#0e2a47] text-white shadow-lg">
-      <div className="h-1 bg-gradient-to-r from-[#c19a2e] via-[#e8cf7a] to-[#c19a2e]" aria-hidden />
+    <header className="sticky top-0 z-30 bg-navy-800 text-white shadow-lg">
+      <div className="h-1 bg-linear-to-r from-gold-500 via-gold-300 to-gold-500" aria-hidden />
       <nav aria-label="Primary" className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-3 sm:px-6">
         <Link href="/" className="mr-1 flex items-center gap-2.5" aria-label="Boomerang home">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-b from-[#e8cf7a] to-[#c19a2e] font-display text-xl font-black text-[#0e2a47]">
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-b from-gold-300 to-gold-500 font-display text-xl font-black text-navy-800">
             B
           </span>
           <span className="leading-tight">
             <span className="block font-display text-lg font-bold tracking-tight">Boomerang</span>
-            <span className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#e8cf7a]">
+            <span className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-gold-300">
               Office of Lost &amp; Found
             </span>
           </span>
@@ -60,14 +60,14 @@ export default function Navbar() {
                 aria-current={active ? "page" : undefined}
                 className={`relative rounded-md px-3.5 py-2 text-sm font-semibold transition-colors ${
                   active
-                    ? "bg-white/10 text-[#e8cf7a] underline decoration-[#c19a2e] decoration-2 underline-offset-8"
+                    ? "bg-white/10 text-gold-300 underline decoration-gold-500 decoration-2 underline-offset-8"
                     : "text-slate-200 hover:bg-white/10 hover:text-white"
                 }`}
               >
                 {l.label}
                 {l.href === "/keywords" && unread > 0 && (
                   <span
-                    className="absolute -right-1 -top-1 min-w-5 rounded-full bg-[#c19a2e] px-1 text-center text-[11px] font-bold text-[#0e2a47]"
+                    className="absolute -right-1 -top-1 min-w-5 rounded-full bg-gold-500 px-1 text-center text-[11px] font-bold text-navy-800"
                     aria-label={`${unread} unread notifications`}
                   >
                     {unread}
@@ -83,12 +83,12 @@ export default function Navbar() {
         {user ? (
           <div className="hidden items-center gap-3 lg:flex">
             <span className="flex items-center gap-2 rounded-full bg-white/10 py-1 pl-1 pr-3 text-sm font-semibold">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-[#e8cf7a] to-[#c19a2e] font-display text-xs font-bold text-[#0e2a47]">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-linear-to-b from-gold-300 to-gold-500 font-display text-xs font-bold text-navy-800">
                 {user.name.slice(0, 1).toUpperCase()}
               </span>
               {user.name}
               {user.role === "admin" ? (
-                <span className="rounded-full bg-[#c19a2e] px-2 py-0.5 text-[10px] font-bold uppercase text-[#0e2a47]">staff</span>
+                <span className="rounded-full bg-gold-500 px-2 py-0.5 text-[10px] font-bold uppercase text-navy-800">staff</span>
               ) : null}
             </span>
             <button
@@ -97,7 +97,7 @@ export default function Navbar() {
                 await signOutUser();
                 router.push("/");
               }}
-              className="rounded-md border border-white/30 px-3 py-2 text-sm font-semibold hover:border-[#e8cf7a] hover:text-[#e8cf7a]"
+              className="rounded-md border border-white/30 px-3 py-2 text-sm font-semibold hover:border-gold-300 hover:text-gold-300"
             >
               Sign out
             </button>
@@ -125,18 +125,18 @@ export default function Navbar() {
       </nav>
 
       {open ? (
-        <div className="space-y-1 border-t border-white/15 bg-[#0a1f36] px-4 py-3 lg:hidden">
+        <div className="space-y-1 border-t border-white/15 bg-navy-900 px-4 py-3 lg:hidden">
           {visible.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               className={`flex items-center gap-2 rounded-md px-3 py-2.5 text-sm font-semibold ${
-                pathname === l.href ? "bg-white/10 text-[#e8cf7a]" : "text-slate-200 hover:bg-white/10"
+                pathname === l.href ? "bg-white/10 text-gold-300" : "text-slate-200 hover:bg-white/10"
               }`}
             >
               <span aria-hidden>{l.icon}</span> {l.label}
               {l.href === "/keywords" && unread > 0 ? (
-                <span className="ml-auto rounded-full bg-[#c19a2e] px-2 text-xs font-bold text-[#0e2a47]">{unread}</span>
+                <span className="ml-auto rounded-full bg-gold-500 px-2 text-xs font-bold text-navy-800">{unread}</span>
               ) : null}
             </Link>
           ))}

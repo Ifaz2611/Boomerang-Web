@@ -76,7 +76,7 @@ export default function AdminPage() {
   return (
     <div className="space-y-5">
       <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-[#8a6d1c]">Moderation</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-gold-600">Moderation</p>
         <h1 className="text-3xl font-black tracking-tight">🛡 Security office</h1>
         <p className="mt-1 text-sm text-slate-500">Review new reports, publish them, and resolve handovers.</p>
         <p role="note" className="mt-2 rounded-xl border border-dashed border-amber-300 bg-amber-50 p-3 text-sm font-medium text-amber-900">
@@ -93,7 +93,7 @@ export default function AdminPage() {
             role="tab"
             aria-selected={tab === t}
             onClick={() => setTab(t)}
-            className={`rounded-full px-4 py-2 text-sm font-bold ${tab === t ? "chip-active" : "card hover:border-[#c19a2e]"}`}
+            className={`rounded-full px-4 py-2 text-sm font-bold ${tab === t ? "chip-active" : "card hover:border-gold-500"}`}
           >
             {t} · {counts[t] ?? 0}
           </button>
@@ -125,7 +125,7 @@ export default function AdminPage() {
           {items.map((it) => (
             <li key={it.id} className="card flex flex-wrap items-center gap-3 p-4">
               <div className="min-w-0 flex-1">
-                <Link href={`/items/${it.id}`} className="font-extrabold hover:text-[#1d4a7a] hover:underline">
+                <Link href={`/items/${it.id}`} className="font-extrabold hover:text-navy-700 hover:underline">
                   {it.title}
                 </Link>
                 <p className="truncate text-xs text-slate-500">

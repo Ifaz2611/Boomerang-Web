@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-full flex-col">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:m-2 focus:rounded-lg focus:bg-[#0e2a47] focus:p-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:absolute focus:m-2 focus:rounded-lg focus:bg-navy-800 focus:p-2 focus:text-white"
         >
           Skip to content
         </a>
@@ -29,11 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6">
             {children}
           </main>
-          <footer className="bg-[#0e2a47] py-6 text-white">
-            <div className="h-px bg-gradient-to-r from-transparent via-[#c19a2e] to-transparent" aria-hidden />
+          <footer className="bg-navy-800 py-6 text-white">
+            <div className="h-px bg-linear-to-r from-transparent via-gold-500 to-transparent" aria-hidden />
             <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 pt-5 text-center sm:flex-row sm:justify-between sm:text-left">
               <p className="flex items-center gap-2 font-display text-sm font-bold">
-                <span className="inline-flex h-7 w-7 items-center justify-center rounded bg-gradient-to-b from-[#e8cf7a] to-[#c19a2e] text-[#0e2a47]">
+                <span className="inline-flex h-7 w-7 items-center justify-center rounded bg-linear-to-b from-gold-300 to-gold-500 text-navy-800">
                   B
                 </span>
                 Boomerang · Office of Lost &amp; Found

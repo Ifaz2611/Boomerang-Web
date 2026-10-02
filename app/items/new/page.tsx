@@ -109,7 +109,7 @@ export default function NewItemPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-5">
       <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-[#8a6d1c]">New report</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-gold-600">New report</p>
         <h1 className="text-3xl font-black tracking-tight">What happened?</h1>
         <p className="mt-1 text-sm text-slate-500">Two minutes now saves someone a week of searching.</p>
       </div>
@@ -130,7 +130,7 @@ export default function NewItemPage() {
               aria-checked={form.type === o.v}
               onClick={() => setForm({ ...form, type: o.v })}
               className={`rounded-2xl border-2 p-4 text-left transition-all ${
-                form.type === o.v ? "border-[#0e2a47] bg-[#f3ecd9]" : "border-slate-200 hover:border-[#c19a2e]"
+                form.type === o.v ? "border-navy-800 bg-[#f3ecd9]" : "border-slate-200 hover:border-gold-500"
               }`}
             >
               <p className="text-2xl" aria-hidden>
@@ -177,7 +177,7 @@ export default function NewItemPage() {
                   role="radio"
                   aria-checked={active}
                   onClick={() => setForm({ ...form, category: c })}
-                  className={`rounded-xl border px-2 py-2.5 text-xs font-bold ${active ? "chip-active border-slate-900" : "border-slate-200 bg-white hover:border-[#c19a2e]"}`}
+                  className={`rounded-xl border px-2 py-2.5 text-xs font-bold ${active ? "chip-active border-slate-900" : "border-slate-200 bg-white hover:border-gold-500"}`}
                 >
                   <span className="block text-lg" aria-hidden>
                     {meta.icon}

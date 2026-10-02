@@ -50,25 +50,25 @@ export default function Home() {
   return (
     <div className="space-y-8">
       {/* University masthead */}
-      <section className="relative overflow-hidden rounded-2xl bg-[#0e2a47] text-white" aria-labelledby="hero">
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#c19a2e] via-[#e8cf7a] to-[#c19a2e]" aria-hidden />
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-[#c19a2e] via-[#e8cf7a] to-[#c19a2e]" aria-hidden />
+      <section className="relative overflow-hidden rounded-2xl bg-navy-800 text-white" aria-labelledby="hero">
+        <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold-500 via-gold-300 to-gold-500" aria-hidden />
+        <div className="absolute inset-x-0 bottom-0 h-1 bg-linear-to-r from-gold-500 via-gold-300 to-gold-500" aria-hidden />
         <div className="relative space-y-5 p-6 text-center sm:p-10">
-          <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#c19a2e]/60 px-4 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-[#e8cf7a]">
+          <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-gold-500/60 px-4 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-gold-300">
             Office of Student Affairs · Registry
           </p>
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-b from-[#e8cf7a] to-[#c19a2e] font-display text-3xl font-black text-[#0e2a47] shadow-lg" aria-hidden>
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-b from-gold-300 to-gold-500 font-display text-3xl font-black text-navy-800 shadow-lg" aria-hidden>
             B
           </div>
           <h1 id="hero" className="mx-auto max-w-2xl font-display text-3xl font-bold leading-tight sm:text-5xl">
             Campus Lost &amp; Found Registry
           </h1>
-          <p className="mx-auto h-px w-24 bg-[#c19a2e]" aria-hidden />
+          <p className="mx-auto h-px w-24 bg-gold-500" aria-hidden />
           <p className="mx-auto max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
             The official record of articles lost and found upon the campus. File an entry, prove ownership
             through a claim, and collect your belongings from the poster or the Security Office.
             {user ? (
-              <span className="mt-1 block font-semibold text-[#e8cf7a]">Welcome back, {user.name}.</span>
+              <span className="mt-1 block font-semibold text-gold-300">Welcome back, {user.name}.</span>
             ) : (
               <span className="mt-1 block">Members of the university may join with a campus email.</span>
             )}
@@ -86,15 +86,15 @@ export default function Home() {
           <dl className="mx-auto flex max-w-lg justify-center gap-8 border-t border-white/15 pt-4" role="status">
             <div>
               <dt className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Open entries</dt>
-              <dd className="font-display text-2xl font-bold text-[#e8cf7a]">{loading ? "…" : stats.open}</dd>
+              <dd className="font-display text-2xl font-bold text-gold-300">{loading ? "…" : stats.open}</dd>
             </div>
             <div>
               <dt className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Under claim</dt>
-              <dd className="font-display text-2xl font-bold text-[#e8cf7a]">{loading ? "…" : stats.claimed}</dd>
+              <dd className="font-display text-2xl font-bold text-gold-300">{loading ? "…" : stats.claimed}</dd>
             </div>
             <div>
               <dt className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Restored</dt>
-              <dd className="font-display text-2xl font-bold text-[#e8cf7a]">{loading ? "…" : stats.returned}</dd>
+              <dd className="font-display text-2xl font-bold text-gold-300">{loading ? "…" : stats.returned}</dd>
             </div>
           </dl>
         </div>
@@ -104,10 +104,10 @@ export default function Home() {
       <section aria-label="How the registry works" className="grid gap-3 sm:grid-cols-3">
         {STEPS.map((s) => (
           <div key={s.n} className="card p-5">
-            <p className="font-display text-3xl font-bold text-[#c19a2e]" aria-hidden>
+            <p className="font-display text-3xl font-bold text-gold-500" aria-hidden>
               {s.n}
             </p>
-            <h2 className="mt-1 font-display text-lg font-bold text-[#0e2a47]">{s.title}</h2>
+            <h2 className="mt-1 font-display text-lg font-bold text-navy-800">{s.title}</h2>
             <p className="mt-1 text-sm leading-relaxed text-slate-600">{s.text}</p>
           </div>
         ))}
@@ -119,7 +119,7 @@ export default function Home() {
           the notice board below. Keep it client-side + Firestore compatible. */}
       <section aria-label="Search and filters (to be implemented)" className="card space-y-3 border-dashed p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <h2 className="font-display text-lg font-bold text-[#0e2a47]">🔍 Search &amp; filters</h2>
+          <h2 className="font-display text-lg font-bold text-navy-800">🔍 Search &amp; filters</h2>
           <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-800">
             TODO · assigned: Kazi Abtahi
           </span>
@@ -146,10 +146,10 @@ export default function Home() {
 
       {/* Notice board */}
       <section id="registry" aria-labelledby="registry-h" className="scroll-mt-24 space-y-4">
-        <div className="flex items-end gap-3 border-b-2 border-[#0e2a47] pb-3">
+        <div className="flex items-end gap-3 border-b-2 border-navy-800 pb-3">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#8a6d1c]">Notice board</p>
-            <h2 id="registry-h" className="font-display text-2xl font-bold text-[#0e2a47] sm:text-3xl">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-gold-600">Notice board</p>
+            <h2 id="registry-h" className="font-display text-2xl font-bold text-navy-800 sm:text-3xl">
               Current entries
             </h2>
           </div>
@@ -172,10 +172,10 @@ export default function Home() {
           </div>
         ) : items.length === 0 ? (
           <div className="card flex flex-col items-center gap-3 p-10 text-center">
-            <p className="font-display text-5xl text-[#c19a2e]" aria-hidden>
+            <p className="font-display text-5xl text-gold-500" aria-hidden>
               ❦
             </p>
-            <h3 className="font-display text-xl font-bold text-[#0e2a47]">The board is clear</h3>
+            <h3 className="font-display text-xl font-bold text-navy-800">The board is clear</h3>
             <p className="max-w-sm text-sm text-slate-600">
               No entries are presently on record. Should you lose or find an article, file an entry and
               it shall be posted here.

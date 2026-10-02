@@ -33,7 +33,7 @@ export default function KeywordsPage() {
     <div className="mx-auto max-w-3xl space-y-5">
       <div className="flex flex-wrap items-center gap-2">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#8a6d1c]">Alerts</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-gold-600">Alerts</p>
           <h1 className="text-3xl font-black tracking-tight">Never miss a match</h1>
           <p className="mt-1 text-sm text-slate-500">Save keywords — new posts matching them show up below.</p>
         </div>

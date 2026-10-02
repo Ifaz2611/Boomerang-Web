@@ -34,8 +34,8 @@ export default function RegisterPage() {
 
   return (
     <div className="mx-auto grid max-w-4xl gap-6 lg:grid-cols-2">
-      <div className="relative hidden overflow-hidden rounded-3xl bg-[#0e2a47] p-8 text-white lg:block">
-        <div className="hero-grid absolute inset-0 bg-gradient-to-br from-[#0e2a47] via-[#1d4a7a] to-[#8a6d1c]" aria-hidden />
+      <div className="relative hidden overflow-hidden rounded-3xl bg-navy-800 p-8 text-white lg:block">
+        <div className="hero-grid absolute inset-0 bg-linear-to-br from-navy-800 via-navy-700 to-gold-600" aria-hidden />
         <div className="relative flex h-full flex-col">
           <p className="text-5xl" aria-hidden>
             🎒
@@ -115,7 +115,7 @@ export default function RegisterPage() {
         </form>
         <p className="text-sm text-slate-500">
           Already have an account?{" "}
-          <Link href="/login" className="font-bold text-[#0e2a47] hover:underline">
+          <Link href="/login" className="font-bold text-navy-800 hover:underline">
             Log in
           </Link>
         </p>

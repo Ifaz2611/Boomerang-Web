@@ -46,7 +46,7 @@ export default function DashboardPage() {
     <div className="mx-auto max-w-4xl space-y-5">
       <div className="flex flex-wrap items-end gap-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#8a6d1c]">Dashboard</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-gold-600">Dashboard</p>
           <h1 className="text-3xl font-black tracking-tight">My posts</h1>
         </div>
         <Link href="/items/new" className="btn-primary ml-auto text-sm">
@@ -98,7 +98,7 @@ export default function DashboardPage() {
                 {m.type === "lost" ? "🔍" : "✋"}
               </span>
               <div className="min-w-0 flex-1">
-                <Link href={`/items/${m.id}`} className="truncate font-extrabold hover:text-[#1d4a7a]">
+                <Link href={`/items/${m.id}`} className="truncate font-extrabold hover:text-navy-700">
                   {m.title}
                 </Link>
                 <p className="truncate text-xs text-slate-500">

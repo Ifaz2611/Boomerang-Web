@@ -85,14 +85,14 @@ export default function ItemPage({ params }: { params: Promise<{ id: string }> }
 
   return (
     <div className="mx-auto max-w-5xl space-y-5">
-      <Link href="/" className="text-sm font-bold text-slate-500 hover:text-[#1d4a7a]">
+      <Link href="/" className="text-sm font-bold text-slate-500 hover:text-navy-700">
         ← Back to browse
       </Link>
 
       <div className="grid gap-5 lg:grid-cols-3">
         {/* Main */}
         <div className="card overflow-hidden lg:col-span-2">
-          <div className="relative h-64 bg-gradient-to-br from-[#e8e0cb] via-[#f6f1e6] to-[#e8cf7a]/50 sm:h-80">
+          <div className="relative h-64 bg-linear-to-br from-[#e8e0cb] via-parchment to-gold-300/50 sm:h-80">
             {item.imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={item.imageUrl} alt={`Photo of ${item.title}`} className="h-full w-full object-cover" />
