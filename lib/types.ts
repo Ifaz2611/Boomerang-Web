@@ -85,13 +85,13 @@ export const CATEGORIES = [
 ] as const;
 
 export const CATEGORY_META: Record<string, { label: string; icon: string; tint: string }> = {
-  electronics: { label: "Electronics", icon: "💻", tint: "bg-sky-100 text-sky-800" },
-  clothing: { label: "Clothing", icon: "👕", tint: "bg-violet-100 text-violet-800" },
-  books: { label: "Books", icon: "📚", tint: "bg-amber-100 text-amber-800" },
-  keys: { label: "Keys", icon: "🔑", tint: "bg-yellow-100 text-yellow-800" },
-  "id-cards": { label: "ID cards", icon: "🪪", tint: "bg-cyan-100 text-cyan-800" },
-  bags: { label: "Bags", icon: "🎒", tint: "bg-orange-100 text-orange-800" },
-  jewelry: { label: "Jewelry", icon: "💍", tint: "bg-pink-100 text-pink-800" },
-  sports: { label: "Sports", icon: "⚽", tint: "bg-emerald-100 text-emerald-800" },
-  other: { label: "Other", icon: "📦", tint: "bg-zinc-200 text-zinc-700" },
+  electronics: { label: "Electronics", icon: "PC", tint: "bg-sky-100 text-sky-800" },
+  clothing: { label: "Clothing", icon: "Apparel", tint: "bg-violet-100 text-violet-800" },
+  books: { label: "Books", icon: "Books", tint: "bg-amber-100 text-amber-800" },
+  keys: { label: "Keys", icon: "Keys", tint: "bg-yellow-100 text-yellow-800" },
+  "id-cards": { label: "ID cards", icon: "ID", tint: "bg-cyan-100 text-cyan-800" },
+  bags: { label: "Bags", icon: "Bag", tint: "bg-orange-100 text-orange-800" },
+  jewelry: { label: "Jewelry", icon: "Jewelry", tint: "bg-pink-100 text-pink-800" },
+  sports: { label: "Sports", icon: "Sports", tint: "bg-emerald-100 text-emerald-800" },
+  other: { label: "Other", icon: "Misc", tint: "bg-zinc-200 text-zinc-700" },
 };

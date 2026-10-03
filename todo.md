@@ -142,7 +142,7 @@ Branch: `feat/alerts-admin-mirza` (same branch as Task 4 — or split into `feat
    - demo mode: update `LS_ITEMS` entry's `status` + `updatedAt`; Firestore: `updateDoc(items/{id}, { status, updatedAt })`.
    - Allowed flows: `pending → published | rejected`, `published → claimed | rejected`, `claimed → resolved`, any → `resolved` by owner/admin. (Enforcement can be UI-level; rules sketch lives in `ARCHITECTURE.md`.)
 2. `app/admin/page.tsx` — wire the `update()` handler (currently shows the TODO notice):
-   - Publish / Reject / Resolve buttons call `setItemStatus()` + reload the queue + show confirmation (`✅ Item → published.` etc.), error path on failure.
+   - Publish / Reject / Resolve buttons call `setItemStatus()` + reload the queue + show confirmation (`Item → published.` etc.), error path on failure.
    - Keep staff-only guard (non-admin sees “Security office only”), tab counts, skeletons, empty “Queue clear” state.
 3. E2E check with Task 1 + 3: report as student → `pending` → admin publishes → `published` → claim → `claimed` → resolve → `resolved`.
 

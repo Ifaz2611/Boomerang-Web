@@ -46,14 +46,14 @@ export default function AdminPage() {
     // setItemStatus() in lib/data.ts currently throws TODO; implement it first.
     void _id;
     void _status;
-    setMsg("🚧 Moderation actions are not implemented yet — assigned to Mirza Rafi (see todo.md Task 5).");
+    setMsg("Moderation actions are not implemented yet — assigned to Mirza Rafi (see todo.md Task 5).");
   }
 
   if (!loading && (!user || user.role !== "admin")) {
     return (
       <div className="card mx-auto max-w-xl space-y-3 p-8 text-center">
-        <p className="text-4xl" aria-hidden>
-          🛡
+        <p className="text-lg font-bold uppercase tracking-[0.3px] text-primary" aria-hidden>
+          Staff only
         </p>
         <h1 className="text-xl font-bold tracking-[-0.45px] text-ink">Security office only</h1>
         <p className="text-sm text-body">
@@ -80,7 +80,7 @@ export default function AdminPage() {
         <h1 className="mt-2 text-3xl font-bold leading-[1.2] tracking-[-0.75px] text-ink">Security office</h1>
         <p className="mt-1 text-sm leading-[1.63] text-body">Review new reports, publish them, and resolve handovers.</p>
         <p role="note" className="mt-2 rounded-xl border border-dashed border-amber-300 bg-amber-50 p-3 text-sm font-medium text-amber-900">
-          🚧 TODO · assigned: Mirza Rafi — moderation actions (Publish / Reject / Resolve via{" "}
+          TODO · assigned: Mirza Rafi — moderation actions (Publish / Reject / Resolve via{" "}
           <code>setItemStatus()</code>) are stubbed. Queue listing works; actions show this notice until{" "}
           <code>todo.md</code> Task 5 is done.
         </p>
@@ -114,8 +114,8 @@ export default function AdminPage() {
         </div>
       ) : items.length === 0 ? (
         <div className="card p-10 text-center">
-          <p className="text-4xl" aria-hidden>
-            ✨
+          <p className="text-sm font-bold uppercase tracking-[0.3px] text-primary" aria-hidden>
+            Queue clear
           </p>
           <p className="mt-2 text-lg font-semibold text-ink">Queue clear</p>
           <p className="text-sm text-body">Nothing in “{tab}” right now.</p>

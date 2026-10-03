@@ -43,3 +43,37 @@ if (isFirebaseConfigured) {
 }
 
 export { app, auth, db, storage, analytics };
+
+/** Convert raw Firebase Auth errors into actionable human-readable messages. */
+export function friendlyAuthError(err: unknown, fallback: string): string {
+  const code =
+    typeof err === "object" && err !== null && "code" in err ? String((err as { code: unknown }).code) : "";
+  switch (code) {
+    case "auth/configuration-not-found":
+      return (
+        "Firebase Authentication is not enabled for this project. " +
+        "In Firebase Console open Build > Authentication > Get started, enable the Email/Password sign-in provider, " +
+        "then restart `npm run dev` and try again."
+      );
+    case "auth/operation-not-allowed":
+      return (
+        "Email/Password sign-in is disabled. Enable it under Firebase Console > Authentication > Sign-in method > Email/Password."
+      );
+    case "auth/email-already-in-use":
+      return "An account with this email already exists. Try logging in instead.";
+    case "auth/weak-password":
+      return "Password is too weak — use at least 6 characters.";
+    case "auth/invalid-email":
+      return "That email address looks invalid.";
+    case "auth/invalid-credential":
+    case "auth/wrong-password":
+    case "auth/user-not-found":
+      return "Invalid email or password.";
+    case "auth/network-request-failed":
+      return "Network error reaching Firebase. Check your connection and try again.";
+    case "auth/unauthorized-domain":
+      return "This domain (e.g. localhost) is not authorized. Add it under Authentication > Settings > Authorized domains.";
+    default:
+      return err instanceof Error ? `${fallback}: ${err.message}` : fallback;
+  }
+}

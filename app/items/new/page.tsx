@@ -94,8 +94,8 @@ export default function NewItemPage() {
   if (!loading && !user) {
     return (
       <div className="card mx-auto max-w-xl space-y-3 p-8 text-center">
-        <p className="text-4xl" aria-hidden>
-          🔐
+        <p className="text-lg font-bold uppercase tracking-[0.3px] text-primary" aria-hidden>
+          Sign in
         </p>
         <h1 className="text-xl font-bold tracking-[-0.45px] text-ink">Log in to report an item</h1>
         <p className="text-sm text-body">Your posts are linked to your account so claims can reach you.</p>
@@ -119,8 +119,8 @@ export default function NewItemPage() {
         <div className="grid gap-3 sm:grid-cols-2" role="radiogroup" aria-label="Report type">
           {(
             [
-              { v: "lost", icon: "🔍", title: "I lost something", sub: "Help others spot it" },
-              { v: "found", icon: "✋", title: "I found something", sub: "Hold it for the owner" },
+              { v: "lost", label: "Lost", title: "I lost something", sub: "Help others spot it" },
+              { v: "found", label: "Found", title: "I found something", sub: "Hold it for the owner" },
             ] as const
           ).map((o) => (
             <button
@@ -137,8 +137,8 @@ export default function NewItemPage() {
                   : "border-hairline bg-white hover:border-primary"
               }`}
             >
-              <p className="text-2xl" aria-hidden>
-                {o.icon}
+              <p className="text-xs font-bold uppercase tracking-[0.3px] text-primary" aria-hidden>
+                {o.label}
               </p>
               <p className="mt-1 font-semibold text-ink">{o.title}</p>
               <p className="text-xs text-body">{o.sub}</p>
@@ -183,7 +183,7 @@ export default function NewItemPage() {
                   onClick={() => setForm({ ...form, category: c })}
                   className={`rounded-xl border px-2 py-2.5 text-xs font-semibold ${active ? "chip-active" : "border-hairline bg-white text-ink hover:border-primary"}`}
                 >
-                  <span className="block text-lg" aria-hidden>
+                  <span className="mb-1 block text-[10px] font-bold uppercase tracking-[0.3px] text-primary" aria-hidden>
                     {meta.icon}
                   </span>
                   {meta.label}
@@ -196,13 +196,13 @@ export default function NewItemPage() {
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="loc" className="label">
-              📍 Location
+              Location
             </label>
             <input id="loc" required value={form.location} onChange={set("location")} placeholder="Central Library, 2nd floor" className="input" />
           </div>
           <div>
             <label htmlFor="date" className="label">
-              📅 Date {form.type === "lost" ? "lost" : "found"}
+              Date {form.type === "lost" ? "lost" : "found"}
             </label>
             <input id="date" required type="date" value={form.eventDate} onChange={set("eventDate")} className="input" />
           </div>
@@ -217,7 +217,7 @@ export default function NewItemPage() {
 
         <div>
           <label htmlFor="img" className="label">
-            📷 Photo (optional, ≤ 2MB)
+            Photo (optional, ≤ 2MB)
           </label>
           <div className="flex items-center gap-4">
             <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 text-3xl">
@@ -225,7 +225,7 @@ export default function NewItemPage() {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={preview} alt="Preview" className="h-full w-full object-cover" />
               ) : (
-                <span aria-hidden>🖼</span>
+                <span aria-hidden>No image</span>
               )}
             </div>
             <input

@@ -80,7 +80,7 @@ export default function Home() {
               document.getElementById("registry")?.scrollIntoView({ behavior: "smooth" });
             }}
           >
-            <span aria-hidden className="text-body">🔍</span>
+            <span aria-hidden className="text-body">Search</span>
             <label htmlFor="hero-search" className="sr-only">
               Search lost and found items
             </label>
@@ -179,8 +179,8 @@ export default function Home() {
           </div>
         ) : items.length === 0 ? (
           <div className="card flex flex-col items-center gap-3 p-12 text-center">
-            <p className="flex h-14 w-14 items-center justify-center rounded-full bg-[rgba(124,59,237,0.15)] text-2xl" aria-hidden>
-              🎒
+            <p className="flex h-14 w-14 items-center justify-center rounded-full bg-[rgba(124,59,237,0.15)] text-sm font-bold uppercase tracking-[0.3px] text-primary" aria-hidden>
+              No entries
             </p>
             <h3 className="text-xl font-bold tracking-[-0.5px] text-ink">All clear — nothing lost right now</h3>
             <p className="max-w-sm text-sm leading-relaxed text-body">

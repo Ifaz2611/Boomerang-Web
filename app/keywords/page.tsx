@@ -17,8 +17,8 @@ export default function KeywordsPage() {
   if (!loading && !user) {
     return (
       <div className="card mx-auto max-w-xl space-y-3 p-8 text-center">
-        <p className="text-4xl" aria-hidden>
-          🔔
+        <p className="text-lg font-bold uppercase tracking-[0.3px] text-primary" aria-hidden>
+          Alerts
         </p>
         <h1 className="text-xl font-bold tracking-[-0.45px] text-ink">Log in to use alerts</h1>
         <p className="text-sm text-body">Save keywords like “wallet” and get pinged on every match.</p>
@@ -60,7 +60,7 @@ export default function KeywordsPage() {
         </label>
         <input id="kw-todo" disabled placeholder="e.g. wallet, airpods, calculator… (coming soon)" className="input" />
         <button disabled className="btn-primary shrink-0 text-sm opacity-60" title="Not implemented yet">
-          ＋ Save (soon)
+          Save (soon)
         </button>
       </form>
 

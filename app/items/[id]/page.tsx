@@ -48,20 +48,20 @@ export default function ItemPage({ params }: { params: Promise<{ id: string }> }
     e.preventDefault();
     // TODO (Tausiful Islam): wire this form to submitClaim() with validation
     // (min 10 chars proof, login required) + reload detail. See todo.md Task 3.
-    setMsg("🚧 Claiming is not implemented yet — assigned to Tausiful Islam (see todo.md Task 3).");
+    setMsg("Claiming is not implemented yet — assigned to Tausiful Islam (see todo.md Task 3).");
   }
 
   async function onDecide(_claimId: string, _decision: "accepted" | "rejected") {
     // TODO (Tausiful Islam): wire to decideClaim() + reload. See todo.md Task 3.
     void _claimId;
     void _decision;
-    setMsg("🚧 Claim verification is not implemented yet — assigned to Tausiful Islam (see todo.md Task 3).");
+    setMsg("Claim verification is not implemented yet — assigned to Tausiful Islam (see todo.md Task 3).");
   }
 
   async function onStatus(_status: string) {
     // TODO (Tausiful Islam): wire "Mark as returned" to setItemStatus(id, "resolved").
     void _status;
-    setMsg("🚧 Mark-as-returned is not implemented yet — assigned to Tausiful Islam (see todo.md Task 3).");
+    setMsg("Mark-as-returned is not implemented yet — assigned to Tausiful Islam (see todo.md Task 3).");
   }
 
   if (error)
@@ -125,15 +125,15 @@ export default function ItemPage({ params }: { params: Promise<{ id: string }> }
             <div className="grid gap-2 rounded-2xl border border-hairline bg-canvas p-4 text-sm sm:grid-cols-3">
               <p>
                 <span className="block text-[12px] font-semibold uppercase tracking-[0.3px] text-body">Location</span>
-                <span className="font-semibold text-ink">📍 {item.location}</span>
+                <span className="font-semibold text-ink">{item.location}</span>
               </p>
               <p>
                 <span className="block text-[12px] font-semibold uppercase tracking-[0.3px] text-body">Posted by</span>
-                <span className="font-semibold text-ink">👤 {item.ownerName}</span>
+                <span className="font-semibold text-ink">{item.ownerName}</span>
               </p>
               <p>
                 <span className="block text-[12px] font-semibold uppercase tracking-[0.3px] text-body">Date</span>
-                <span className="font-semibold text-ink">📅 {item.eventDate}</span>
+                <span className="font-semibold text-ink">{item.eventDate}</span>
               </p>
             </div>
             <p className="text-xs text-body">
@@ -146,7 +146,7 @@ export default function ItemPage({ params }: { params: Promise<{ id: string }> }
                 TODO · Tausiful Islam
               </span>
               <button onClick={() => onStatus("resolved")} className="btn-primary text-sm opacity-60" title="Not implemented yet">
-                ✅ Mark as returned (coming soon)
+                Mark as returned (coming soon)
               </button>
             </div>
           </div>

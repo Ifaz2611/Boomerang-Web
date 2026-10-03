@@ -12,7 +12,7 @@ export default function ItemCard({ item }: { item: Item }) {
           // eslint-disable-next-line @next/next/no-img-element
           <img src={item.imageUrl} alt="" loading="lazy" className="h-full w-full object-cover" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-6xl text-primary/60" aria-hidden>
+          <div className="flex h-full w-full items-center justify-center text-lg font-semibold uppercase tracking-[0.3px] text-primary/60" aria-hidden>
             {meta.icon}
           </div>
         )}
@@ -25,7 +25,7 @@ export default function ItemCard({ item }: { item: Item }) {
       <div className="flex flex-1 flex-col gap-2 p-4">
         <div className="flex items-center gap-2">
           <span className="btn-tint !h-9 !text-[12px] !font-semibold uppercase !tracking-[0.3px]">
-            {meta.icon} {meta.label}
+            {meta.label}
           </span>
         </div>
         <h3 className="text-base font-semibold leading-[1.5] tracking-[-0.4px] text-ink">
@@ -36,9 +36,9 @@ export default function ItemCard({ item }: { item: Item }) {
         <p className="line-clamp-2 text-sm leading-[1.63] text-body">{item.description}</p>
         <div className="mt-auto space-y-2 pt-2">
           <p className="flex items-center gap-1.5 text-xs font-normal leading-[1.33] text-body">
-            <span aria-hidden>📍</span> <span className="truncate">{item.location}</span>
+            <span className="truncate">{item.location}</span>
             <span aria-hidden className="text-hairline">·</span>
-            <span aria-hidden>📅</span> {item.eventDate}
+            {item.eventDate}
           </p>
           <div className="flex items-center justify-between border-t border-hairline pt-3">
             <span className="text-xs font-normal text-body">By {item.ownerName}</span>

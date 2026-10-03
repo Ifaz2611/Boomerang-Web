@@ -27,8 +27,8 @@ export default function DashboardPage() {
   if (!loading && !user) {
     return (
       <div className="card mx-auto max-w-xl space-y-3 p-8 text-center">
-        <p className="text-4xl" aria-hidden>
-          🗂
+        <p className="text-lg font-bold uppercase tracking-[0.3px] text-primary" aria-hidden>
+          My posts
         </p>
         <h1 className="text-xl font-bold tracking-[-0.45px] text-ink">Log in to see your posts</h1>
         <Link href="/login" className="btn-primary mx-auto text-sm">
@@ -50,20 +50,17 @@ export default function DashboardPage() {
           <h1 className="mt-2 text-3xl font-bold leading-[1.2] tracking-[-0.75px] text-ink">My posts</h1>
         </div>
         <Link href="/items/new" className="btn-primary ml-auto text-sm">
-          ＋ Report an item
+          Report an item
         </Link>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-3">
         {[
-          { icon: "⏳", n: pending, label: "In review" },
-          { icon: "🟢", n: open, label: "Open" },
-          { icon: "🎉", n: done, label: "Returned" },
+          { n: pending, label: "In review" },
+          { n: open, label: "Open" },
+          { n: done, label: "Returned" },
         ].map((s) => (
           <div key={s.label} className="card flex items-center gap-3 p-4">
-            <span className="text-2xl" aria-hidden>
-              {s.icon}
-            </span>
             <span>
               <span className="block text-2xl font-bold tracking-[-0.5px] text-ink">{busy ? "…" : s.n}</span>
               <span className="text-xs font-semibold text-body">{s.label}</span>
@@ -79,8 +76,8 @@ export default function DashboardPage() {
         </div>
       ) : mine.length === 0 ? (
         <div className="card p-10 text-center">
-          <p className="text-4xl" aria-hidden>
-            🪃
+          <p className="text-sm font-bold uppercase tracking-[0.3px] text-primary" aria-hidden>
+            No posts yet
           </p>
           <p className="mt-2 text-lg font-semibold text-ink">Nothing posted yet</p>
           <p className="mx-auto mt-1 max-w-sm text-sm leading-[1.63] text-body">
@@ -94,8 +91,8 @@ export default function DashboardPage() {
         <ul className="space-y-2">
           {mine.map((m) => (
             <li key={m.id} className="card flex items-center gap-3 p-4">
-              <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-xl ${m.type === "lost" ? "bg-danger/15" : "bg-teal-accent/15"}`} aria-hidden>
-                {m.type === "lost" ? "🔍" : "✋"}
+              <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-xs font-bold uppercase tracking-[0.3px] ${m.type === "lost" ? "bg-danger/15" : "bg-teal-accent/15"}`} aria-hidden>
+                {m.type === "lost" ? "Lost" : "Found"}
               </span>
               <div className="min-w-0 flex-1">
                 <Link href={`/items/${m.id}`} className="truncate font-semibold text-ink hover:text-primary hover:underline">

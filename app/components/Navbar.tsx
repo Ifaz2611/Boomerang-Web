@@ -86,7 +86,7 @@ export default function Navbar() {
               {user.name}
               {user.role === "admin" ? (
                 <span className="rounded-full bg-[rgba(0,193,214,0.2)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.3px] text-cyan-accent">
-                  ✓ staff
+                  Staff
                 </span>
               ) : null}
             </span>
@@ -114,12 +114,12 @@ export default function Navbar() {
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-hairline bg-white text-ink lg:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-hairline bg-white text-sm font-semibold text-ink lg:hidden"
           aria-expanded={open}
           aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? "✕" : "☰"}
+          {open ? "Close" : "Menu"}
         </button>
       </nav>
 
